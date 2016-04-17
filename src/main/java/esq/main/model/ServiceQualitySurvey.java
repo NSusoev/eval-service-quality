@@ -2,8 +2,9 @@ package esq.main.model;
 
 import javax.persistence.*;
 import javax.validation.OverridesAttribute;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by nsusoev on 08.04.16.
@@ -19,7 +20,7 @@ public class ServiceQualitySurvey {
     @Column(nullable = false)
     private Date surveyDate;
     @OneToMany(mappedBy = "serviceQualitySurvey")
-    private List<ServiceQualitySurveyResult> surveyResults;
+    private Set<ServiceQualitySurveyResult> surveyResults = new HashSet<ServiceQualitySurveyResult>();
     @ManyToOne
     private ClientCategory clientCategory;
     @ManyToOne
@@ -29,7 +30,11 @@ public class ServiceQualitySurvey {
 
     }
 
-    public ServiceQualitySurvey(Date surveyDate, List<ServiceQualitySurveyResult> surveyResults) {
+    public ServiceQualitySurvey(Date surveyDate) {
+        this.surveyDate = surveyDate;
+    }
+
+    public ServiceQualitySurvey(Date surveyDate, Set<ServiceQualitySurveyResult> surveyResults) {
         this.surveyResults = surveyResults;
         this.surveyDate = surveyDate;
     }
@@ -42,11 +47,11 @@ public class ServiceQualitySurvey {
         this.id = id;
     }
 
-    public List<ServiceQualitySurveyResult> getSurveyResults() {
+    public Set<ServiceQualitySurveyResult> getSurveyResults() {
         return this.surveyResults;
     }
 
-    public void setSurveyResults(List<ServiceQualitySurveyResult> surveyResults) {
+    public void setSurveyResults(Set<ServiceQualitySurveyResult> surveyResults) {
         this.surveyResults = surveyResults;
     }
 

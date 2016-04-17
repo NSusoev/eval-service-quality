@@ -1,7 +1,8 @@
 package esq.main.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by nsusoev on 05.04.16.
@@ -18,7 +19,7 @@ public class ClientCategory {
     private String name;
 
     @ManyToMany
-    private List<ClientGroup> clientGroups;
+    private Set<ClientGroup> clientGroups = new HashSet<ClientGroup>();
 
     protected ClientCategory() {
     }
@@ -48,11 +49,11 @@ public class ClientCategory {
         this.name = name;
     }
 
-    public List<ClientGroup> getClientGroups() {
+    public Set<ClientGroup> getClientGroups() {
         return this.clientGroups;
     }
 
-    public void setClientGroups(List<ClientGroup> clientGroups) {
+    public void setClientGroups(Set<ClientGroup> clientGroups) {
         this.clientGroups = clientGroups;
     }
 

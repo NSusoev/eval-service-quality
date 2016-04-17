@@ -16,7 +16,11 @@ public class ESQClientCategoryImportance implements Serializable {
     @ManyToOne
     private LinguisticTerm clientCategoryImportance;
 
-    public ESQClientCategoryImportance() {
+    protected ESQClientCategoryImportance() {
+    }
+
+    public ESQClientCategoryImportance(LinguisticTerm clientCategoryImportance) {
+        this.clientCategoryImportance = clientCategoryImportance;
     }
 
     public ESQClientCategoryImportanceId getPk() {

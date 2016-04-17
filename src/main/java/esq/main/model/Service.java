@@ -2,7 +2,8 @@ package esq.main.model;
 
 import javax.persistence.*;
 import javax.validation.OverridesAttribute;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by nsusoev on 05.04.16.
@@ -18,15 +19,28 @@ public class Service {
     @Column(unique = true, nullable = false)
     private String name;
     @ManyToMany
-    private List<ServiceQualityCriteria> serviceQualityCriterias;
+    private Set<ServiceQualityCriteria> serviceQualityCriterias = new HashSet<ServiceQualityCriteria>();
     @ManyToMany
-    private List<ClientCategory> clientCategoriesFor;
+    private Set<ClientCategory> clientCategoriesFor = new HashSet<ClientCategory>();
 
     protected Service() {
     }
 
     public Service(String name) {
         this.name = name;
+    }
+
+    public Service(String name, Set<ServiceQualityCriteria> serviceQualityCriterias) {
+        this.name = name;
+        this.serviceQualityCriterias = serviceQualityCriterias;
+    }
+
+    public Service(String name,
+                   Set<ServiceQualityCriteria> serviceQualityCriterias,
+                   Set<ClientCategory> clientCategoriesFor) {
+        this.name = name;
+        this.serviceQualityCriterias = serviceQualityCriterias;
+        this.clientCategoriesFor = clientCategoriesFor;
     }
 
     public long getId() {
@@ -45,19 +59,19 @@ public class Service {
         this.name = name;
     }
 
-    public List<ServiceQualityCriteria> getServiceQualityCriterias() {
+    public Set<ServiceQualityCriteria> getServiceQualityCriterias() {
         return this.serviceQualityCriterias;
     }
 
-    public void setServiceQualityCriterias(List<ServiceQualityCriteria> serviceQualityCriterias) {
+    public void setServiceQualityCriterias(Set<ServiceQualityCriteria> serviceQualityCriterias) {
         this.serviceQualityCriterias = serviceQualityCriterias;
     }
 
-    public List<ClientCategory> getClientCategoriesFor() {
+    public Set<ClientCategory> getClientCategoriesFor() {
         return clientCategoriesFor;
     }
 
-    public void setClientCategoriesFor(List<ClientCategory> clientCategoriesFor) {
+    public void setClientCategoriesFor(Set<ClientCategory> clientCategoriesFor) {
         this.clientCategoriesFor = clientCategoriesFor;
     }
 

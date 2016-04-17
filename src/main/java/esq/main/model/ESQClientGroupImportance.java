@@ -15,7 +15,11 @@ public class ESQClientGroupImportance {
     @ManyToOne
     private LinguisticTerm clientGroupImportance;
 
-    public ESQClientGroupImportance() {
+    protected ESQClientGroupImportance() {
+    }
+
+    public ESQClientGroupImportance(LinguisticTerm clientGroupImportance) {
+        this.clientGroupImportance = clientGroupImportance;
     }
 
     public ESQClientGroupImportanceId getPk() {

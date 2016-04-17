@@ -31,6 +31,27 @@ public class ESQSettingsProfile {
         this.name = name;
     }
 
+    public ESQSettingsProfile(String name, ESQRoudingPolicy esqRoudingPolicy) {
+        this.name = name;
+        this.esqRoudingPolicy = esqRoudingPolicy;
+    }
+
+    public ESQSettingsProfile(String name, ESQRoudingPolicy esqRoudingPolicy,
+                              Set<ESQClientCategoryImportance> esqClientCategoryImportances) {
+        this.name = name;
+        this.esqRoudingPolicy = esqRoudingPolicy;
+        this.esqClientCategoryImportances = esqClientCategoryImportances;
+    }
+
+    public ESQSettingsProfile(String name, ESQRoudingPolicy esqRoudingPolicy,
+                              Set<ESQClientCategoryImportance> esqClientCategoryImportances,
+                              Set<ESQClientGroupImportance> esqClientGroupImportances) {
+        this.name = name;
+        this.esqRoudingPolicy = esqRoudingPolicy;
+        this.esqClientCategoryImportances = esqClientCategoryImportances;
+        this.esqClientGroupImportances = esqClientGroupImportances;
+    }
+
     public String getName() {
         return name;
     }
