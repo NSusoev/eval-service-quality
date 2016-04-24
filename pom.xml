@@ -53,6 +53,24 @@
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>src/main/resources/profiles/${build.profile.id}/application.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>sql-maven-plugin</artifactId>
                 <version>1.5</version>
                 <dependencies>
@@ -70,6 +88,10 @@
                         </goals>
                         <configuration>
                             <autocommit>true</autocommit>
+                            <driver>${spring.database.driverClassName}</driver>
+                            <url>${spring.datasource.url}</url>
+                            <username>${spring.datasource.username}</username>
+                            <password>${spring.datasource.password}</password>
                             <srcFiles>
                                 <srcFile>src/main/resources/migrations/init.sql</srcFile>
                             </srcFiles>
@@ -86,28 +108,14 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <build.profile.id>dev</build.profile.id>
+                <compiler.debug.info>true</compiler.debug.info>
+            </properties>
             <build>
-                <resources>
-                    <resource>
-                        <targetPath>${project.build.outputDirectory}</targetPath>
-                        <directory>src/main/resources/profiles/dev</directory>
-                        <includes>
-                            <include>application.properties</include>
-                        </includes>
-                    </resource>
-                </resources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>sql-maven-plugin</artifactId>
-                        <configuration>
-                            <driver>${spring.database.driverClassName}</driver>
-                            <url>${spring.datasource.url}</url>
-                            <username>${spring.datasource.username}</username>
-                            <password>${spring.datasource.password}</password>
-                        </configuration>
-                    </plugin>
-                </plugins>
+                <filters>
+                    <filter>src/main/resources/profiles/${build.profile.id}/application.properties</filter>
+                </filters>
             </build>
         </profile>
     </profiles>
