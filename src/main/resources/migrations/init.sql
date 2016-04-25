@@ -264,3 +264,52 @@ INSERT INTO linguistic_terms(id, name, value) VALUES(2,'низкое', 2);
 INSERT INTO linguistic_terms(id, name, value) VALUES(3,'среднее', 3);
 INSERT INTO linguistic_terms(id, name, value) VALUES(4,'высокое', 4);
 INSERT INTO linguistic_terms(id, name, value) VALUES(5,'очень высокое', 5);
+
+-- Результаты опросов
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (1, '1.04.2016', 1, 1, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (1, 5, 4, 5, 1, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (2, 1, 4, 3, 2, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (3, 3, 4, 5, 3, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (4, 2, 4, 5, 4, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (5, 1, 4, 3, 5, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (6, 5, 4, 2, 6, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (7, 5, 4, 1, 7, 1);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (8, 5, 5, 5, 8, 1);
+
+
+

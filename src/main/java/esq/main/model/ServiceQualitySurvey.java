@@ -18,7 +18,9 @@ public class ServiceQualitySurvey {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(nullable = false)
-    private Date surveyDate;
+    private Date surveyDate = new Date();
+    @ManyToOne
+    private Service service;
     @OneToMany(mappedBy = "serviceQualitySurvey")
     private Set<ServiceQualitySurveyResult> surveyResults = new HashSet<ServiceQualitySurveyResult>();
     @ManyToOne
@@ -30,13 +32,19 @@ public class ServiceQualitySurvey {
 
     }
 
-    public ServiceQualitySurvey(Date surveyDate) {
+    public ServiceQualitySurvey(Service service) {
+        this.service = service;
+    }
+
+    public ServiceQualitySurvey(Service service, Date surveyDate) {
+        this.service = service;
         this.surveyDate = surveyDate;
     }
 
-    public ServiceQualitySurvey(Date surveyDate, Set<ServiceQualitySurveyResult> surveyResults) {
-        this.surveyResults = surveyResults;
+    public ServiceQualitySurvey(Service service, Date surveyDate, Set<ServiceQualitySurveyResult> surveyResults) {
+        this.service = service;
         this.surveyDate = surveyDate;
+        this.surveyResults = surveyResults;
     }
 
     public long getId() {
@@ -79,9 +87,17 @@ public class ServiceQualitySurvey {
         return this.clientGroup;
     }
 
+    public Service getService() {
+        return this.service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+
     @Override
     public String toString() {
-        return String.format("ServiceQualitySurvey[id=%d, results=%s, date=%s, client category=%s, client group=%s]",
-                id, surveyResults, surveyDate, clientCategory, clientGroup);
+        return String.format("ServiceQualitySurvey[id=%d, service=%s, date=%s, client category=%s, client group=%s, results=%s]",
+                id, service, surveyDate, clientCategory, clientGroup, surveyResults);
     }
 }

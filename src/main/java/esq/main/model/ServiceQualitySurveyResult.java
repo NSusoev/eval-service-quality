@@ -15,25 +15,29 @@ public class ServiceQualitySurveyResult {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne
+    private ServiceQualitySurvey serviceQualitySurvey;
+    @ManyToOne
+    private ServiceQualityCriteria serviceQualityCriteria;
+    @ManyToOne
     private LinguisticTerm expectationMark;
     @ManyToOne
     private LinguisticTerm afterUseMark;
     @ManyToOne
     private LinguisticTerm importanceMark;
-    @ManyToOne
-    private ServiceQualitySurvey serviceQualitySurvey;
 
     protected ServiceQualitySurveyResult() {
     }
 
-    public ServiceQualitySurveyResult(LinguisticTerm expectationMark,
+    public ServiceQualitySurveyResult(ServiceQualitySurvey serviceQualitySurvey,
+                                      ServiceQualityCriteria serviceQualityCriteria,
+                                      LinguisticTerm expectationMark,
                                       LinguisticTerm afterUseMark,
-                                      LinguisticTerm importanceMark,
-                                      ServiceQualitySurvey serviceQualitySurvey) {
+                                      LinguisticTerm importanceMark) {
+        this.serviceQualitySurvey = serviceQualitySurvey;
+        this.serviceQualityCriteria = serviceQualityCriteria;
         this.expectationMark = expectationMark;
         this.afterUseMark = afterUseMark;
         this.importanceMark = importanceMark;
-        this.serviceQualitySurvey = serviceQualitySurvey;
     }
 
     public long getId() {
@@ -76,9 +80,17 @@ public class ServiceQualitySurveyResult {
         return this.serviceQualitySurvey;
     }
 
+    public ServiceQualityCriteria getServiceQualityCriteria() {
+        return this.serviceQualityCriteria;
+    }
+
+    public void setServiceQualityCriteria(ServiceQualityCriteria serviceQualityCriteria) {
+        this.serviceQualityCriteria = serviceQualityCriteria;
+    }
+
     @Override
     public String toString() {
-        return String.format("ServiceQualitySurveyResult[id=%d, expectation mark=%s, after use mark=%s, importance mark=%s, survey=%s]",
-                id, expectationMark, afterUseMark, importanceMark, serviceQualitySurvey);
+        return String.format("ServiceQualitySurveyResult[id=%d, service quality criteria=%s,expectation mark=%s, after use mark=%s, importance mark=%s, survey=%s]",
+                id, serviceQualityCriteria, expectationMark, afterUseMark, importanceMark, serviceQualitySurvey);
     }
 }
