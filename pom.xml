@@ -94,6 +94,7 @@
                             <password>${spring.datasource.password}</password>
                             <srcFiles>
                                 <srcFile>src/main/resources/migrations/init.sql</srcFile>
+                                <srcFile>src/main/resources/migrations/test_survey_results.sql</srcFile>
                             </srcFiles>
                         </configuration>
                     </execution>
