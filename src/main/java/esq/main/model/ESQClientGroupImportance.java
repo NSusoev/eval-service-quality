@@ -40,6 +40,11 @@ public class ESQClientGroupImportance {
         return getPk().getClientGroup();
     }
 
+    @Transient
+    public ClientCategory getClientCategory() {
+        return getPk().getClientCategory();
+    }
+
     public LinguisticTerm getClientGroupImportance() {
         return this.clientGroupImportance;
     }

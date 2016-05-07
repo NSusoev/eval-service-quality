@@ -265,51 +265,62 @@ INSERT INTO linguistic_terms(id, name, value) VALUES(3,'среднее', 3);
 INSERT INTO linguistic_terms(id, name, value) VALUES(4,'высокое', 4);
 INSERT INTO linguistic_terms(id, name, value) VALUES(5,'очень высокое', 5);
 
--- Результаты опросов
+-- Политики округления при расчёте оценки качества
 
-INSERT INTO service_quality_surveys(
-            id, survey_date, client_category_id, client_group_id, service_id)
-    VALUES (1, '1.04.2016', 1, 1, 1);
+INSERT INTO esqrouding_policies(id, name) VALUES(1, 'мягкая');
+INSERT INTO esqrouding_policies(id, name) VALUES(2, 'нейтральная');
+INSERT INTO esqrouding_policies(id, name) VALUES(3, 'жесткая');
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (1, 5, 4, 5, 1, 1);
+-- Профиль с настройками расчёта
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (2, 1, 4, 3, 2, 1);
+INSERT INTO esqsettings_profiles(
+            id, name, esq_rouding_policy_id)
+    VALUES (1, 'test', 1);
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (3, 3, 4, 5, 3, 1);
+INSERT INTO esqclient_category_importances(
+            client_category_id, esq_settings_profile_id, client_category_importance_id)
+    VALUES (1, 1, 3);
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (4, 2, 4, 5, 4, 1);
+INSERT INTO esqclient_category_importances(
+            client_category_id, esq_settings_profile_id, client_category_importance_id)
+    VALUES (2, 1, 4);
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (5, 1, 4, 3, 5, 1);
+INSERT INTO esqclient_group_importances(
+            client_group_id, client_category_id, esq_settings_profile_id,
+            client_group_importance_id)
+    VALUES (1, 1, 1,
+            2);
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (6, 5, 4, 2, 6, 1);
+INSERT INTO esqclient_group_importances(
+            client_group_id, client_category_id, esq_settings_profile_id,
+            client_group_importance_id)
+    VALUES (2, 1, 1,
+            3);
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (7, 5, 4, 1, 7, 1);
+INSERT INTO esqclient_group_importances(
+            client_group_id, client_category_id, esq_settings_profile_id,
+            client_group_importance_id)
+    VALUES (3, 1, 1,
+            1);
 
-INSERT INTO service_quality_survey_results(
-            id, after_use_mark_id, expectation_mark_id, importance_mark_id,
-            service_quality_criteria_id, service_quality_survey_id)
-    VALUES (8, 5, 5, 5, 8, 1);
+INSERT INTO esqclient_group_importances(
+            client_group_id, client_category_id, esq_settings_profile_id,
+            client_group_importance_id)
+    VALUES (1, 2, 1,
+            4);
+
+INSERT INTO esqclient_group_importances(
+            client_group_id, client_category_id, esq_settings_profile_id,
+            client_group_importance_id)
+    VALUES (2, 2, 1,
+            5);
+
+INSERT INTO esqclient_group_importances(
+            client_group_id, client_category_id, esq_settings_profile_id,
+            client_group_importance_id)
+    VALUES (3, 2, 1,
+            1);
+
 
 
 

@@ -14,6 +14,8 @@ public class ESQClientGroupImportanceId implements Serializable {
     private ESQSettingsProfile esqSettingsProfile;
     @ManyToOne
     private ClientGroup clientGroup;
+    @ManyToOne
+    private ClientCategory clientCategory;
 
     public ESQSettingsProfile getESQSettingsProfile() {
         return this.esqSettingsProfile;
@@ -23,12 +25,18 @@ public class ESQClientGroupImportanceId implements Serializable {
         this.esqSettingsProfile = settingsProfile;
     }
 
-    public ClientGroup getClientGroup() {
-        return this.clientGroup;
+    public ClientGroup getClientGroup() { return this.clientGroup;
     }
 
     public void setClientGroup(ClientGroup clientGroup) {
         this.clientGroup = clientGroup;
+    }
+
+    public ClientCategory getClientCategory() { return this.clientCategory;
+    }
+
+    public void setClientCategory(ClientCategory clientCategory) {
+        this.clientCategory = clientCategory;
     }
 
     public boolean equals(Object o) {
@@ -45,6 +53,10 @@ public class ESQClientGroupImportanceId implements Serializable {
             return false;
         }
 
+        if (clientCategory != null ? !clientCategory.equals(that.clientCategory) : that.clientCategory != null) {
+            return false;
+        }
+
         return true;
     }
 
@@ -52,6 +64,7 @@ public class ESQClientGroupImportanceId implements Serializable {
         int result;
         result = (esqSettingsProfile != null ? esqSettingsProfile.hashCode() : 0);
         result = 31 * result + (clientGroup != null ? clientGroup.hashCode() : 0);
+        result = 31 * result + (clientCategory != null ? clientCategory.hashCode() : 0);
         return result;
     }
 }
