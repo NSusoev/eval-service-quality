@@ -63,7 +63,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>src/main/resources/profiles/${build.profile.id}/application.properties</file>
+                                <file>config/application-${build.profile.id}.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -115,7 +115,7 @@
             </properties>
             <build>
                 <filters>
-                    <filter>src/main/resources/profiles/${build.profile.id}/application.properties</filter>
+                    <filter>config/application-${build.profile.id}.properties</filter>
                 </filters>
             </build>
         </profile>
