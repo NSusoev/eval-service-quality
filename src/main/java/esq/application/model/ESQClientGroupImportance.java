@@ -3,7 +3,7 @@ package esq.application.model;
 import javax.persistence.*;
 
 /**
- * Created by nsusoev on 14.04.16.
+ * Важности групп клиентов при расчёте оценки
  */
 
 @Entity

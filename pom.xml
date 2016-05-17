@@ -35,6 +35,11 @@
             <artifactId>postgresql</artifactId>
             <version>9.4-1206-jdbc4</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-jsp</artifactId>
+            <version>3.0.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -93,8 +98,8 @@
                             <username>${spring.datasource.username}</username>
                             <password>${spring.datasource.password}</password>
                             <srcFiles>
-                                <srcFile>src/main/resources/migrations/init.sql</srcFile>
-                                <srcFile>src/main/resources/migrations/test_survey_results.sql</srcFile>
+                                <srcFile>src/main/resources/sql/init.sql</srcFile>
+                                <srcFile>src/main/resources/sql/test_survey_results.sql</srcFile>
                             </srcFiles>
                         </configuration>
                     </execution>

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by nsusoev on 05.04.16.
+ * Услуги банка
  */
 
 @Entity
@@ -15,10 +15,13 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    // название услуги
     @Column(unique = true, nullable = false)
     private String name;
+    // критерии оценивая услуги
     @ManyToMany
     private Set<ServiceQualityCriteria> serviceQualityCriterias = new HashSet<ServiceQualityCriteria>();
+    // для каких категорий клиентов услуга(только они будут оценивать)
     @ManyToMany
     private Set<ClientCategory> clientCategoriesFor = new HashSet<ClientCategory>();
 

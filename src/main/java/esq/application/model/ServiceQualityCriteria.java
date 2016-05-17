@@ -3,7 +3,7 @@ package esq.application.model;
 import javax.persistence.*;
 
 /**
- * Created by nsusoev on 08.04.16.
+ * Критерии, по которым оцениваются услуги(или т.н. подкритерии)
  */
 
 @Entity
@@ -13,6 +13,7 @@ public class ServiceQualityCriteria {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    // название критерия оценивания услуги
     @Column(nullable = false, unique = true)
     private String name;
 

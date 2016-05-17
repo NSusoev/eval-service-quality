@@ -3,7 +3,7 @@ package esq.application.model;
 import javax.persistence.*;
 
 /**
- * Created by nsusoev on 07.04.16.
+ * Группы клиентов
  */
 
 @Entity

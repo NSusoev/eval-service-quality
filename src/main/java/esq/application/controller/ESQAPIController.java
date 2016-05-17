@@ -12,7 +12,7 @@ import esq.application.model.Service;
 import java.util.List;
 
 /**
- * Created by nsusoev on 05.04.16.
+ * REST API для взаимодействия с сервисом
  */
 
 @RestController

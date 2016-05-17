@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by nsusoev on 05.04.16.
+ * Категории клиентов
  */
 
 @Entity

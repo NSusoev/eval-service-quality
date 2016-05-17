@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by nsusoev on 17.05.16.
+ * Класс расчёта интегральной оценки качества
  */
 
 

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Created by nsusoev on 17.05.16.
+ * Контроллер интерфейса приложения
  */
 
 @Controller

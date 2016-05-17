@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by nsusoev on 14.04.16.
+ * Важности категорий клиентов при расчёте оценки
  */
 
 @Entity

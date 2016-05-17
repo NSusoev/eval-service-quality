@@ -3,7 +3,7 @@ package esq.application.model;
 import javax.persistence.*;
 
 /**
- * Created by nsusoev on 14.04.16.
+ * Политика округления при расчёте оценки
  */
 
 @Entity
@@ -13,6 +13,7 @@ public class ESQRoudingPolicy {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    // имя политики округления
     @Column(unique = true, nullable = false)
     private String name;
 

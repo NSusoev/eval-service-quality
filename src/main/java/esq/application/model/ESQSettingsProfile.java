@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by nsusoev on 08.04.16.
+ * Профили настроек расчёта оценки(оценки важностей от экспертов)
  */
 
 @Entity
@@ -15,12 +15,16 @@ public class ESQSettingsProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    // название профиля
     @Column(unique = true, nullable = false)
     private String name;
+    // важности категорий
     @OneToMany(mappedBy = "pk.clientCategory")
     private Set<ESQClientCategoryImportance> esqClientCategoryImportances = new HashSet<ESQClientCategoryImportance>();
+    // важности групп
     @OneToMany(mappedBy = "pk.clientGroup")
     private Set<ESQClientGroupImportance> esqClientGroupImportances = new HashSet<ESQClientGroupImportance>();
+    // политика округления
     @OneToOne
     private ESQRoudingPolicy esqRoudingPolicy;
 

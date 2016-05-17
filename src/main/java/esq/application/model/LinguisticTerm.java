@@ -3,7 +3,7 @@ package esq.application.model;
 import javax.persistence.*;
 
 /**
- * Created by nsusoev on 05.04.16.
+ * Лингвистические термы, по котором оцениваются услуги
  */
 
 @Entity
@@ -13,8 +13,10 @@ public class LinguisticTerm {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    // название термы
     @Column(unique = true, nullable = false)
     private String name;
+    // значение
     @Column(unique = true, nullable = false)
     private byte value;
 

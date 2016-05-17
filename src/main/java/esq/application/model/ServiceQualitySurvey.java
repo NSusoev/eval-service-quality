@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Created by nsusoev on 08.04.16.
+ * Опросы клиентов
  */
 
 @Entity
@@ -16,14 +16,19 @@ public class ServiceQualitySurvey {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    // дата проведения анкетирования
     @Column(nullable = false)
     private Date surveyDate = new Date();
+    // оцениваемая услуга
     @ManyToOne
     private Service service;
+    // результаты опроса
     @OneToMany(mappedBy = "serviceQualitySurvey")
     private Set<ServiceQualitySurveyResult> surveyResults = new HashSet<ServiceQualitySurveyResult>();
+    // категория клиента
     @ManyToOne
     private ClientCategory clientCategory;
+    // группа клиентов
     @ManyToOne
     private ClientGroup clientGroup;
 

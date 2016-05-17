@@ -5,7 +5,8 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 /**
- * Created by nsusoev on 15.04.16.
+ * Промежуточная сущность между таблицей профилей настроек расчёта
+ * и таблицей важностей категорий клиентов
  */
 
 @Embeddable

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.lang.Math;
 
 /**
- * Created by nsusoev on 08.04.16.
+ * Результаты опросов клиентов
  */
 
 @Entity
@@ -14,14 +14,19 @@ public class ServiceQualitySurveyResult {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    // опрос, в рамках которого оценивается услуга по критерию
     @ManyToOne
     private ServiceQualitySurvey serviceQualitySurvey;
+    // критерий оценки услуги
     @ManyToOne
     private ServiceQualityCriteria serviceQualityCriteria;
+    // оценка ожидания
     @ManyToOne
     private LinguisticTerm expectationMark;
+    // оценка восприятия
     @ManyToOne
     private LinguisticTerm afterUseMark;
+    // оценка важности
     @ManyToOne
     private LinguisticTerm importanceMark;
 
@@ -94,6 +99,7 @@ public class ServiceQualitySurveyResult {
                 id, serviceQualityCriteria, expectationMark, afterUseMark, importanceMark, serviceQualitySurvey);
     }
 
+    // Расчёт оценки качества на основе оценок ожидания и восприятия
     public int getQualityMark() {
         return Math.max(Math.min(2 * this.afterUseMark.getValue() - this.expectationMark.getValue(), 5), 1);
     }
