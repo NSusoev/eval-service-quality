@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerFragment">
+    <title>Система РИОКУ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/bower_components/bootswatch-dist/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div th:fragment="topNavBarFragment" class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">Система РИОКУ</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+            </ul>
+
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Логин"/>
+                    <input type="password" class="form-control" placeholder="Пароль"/>
+                </div>
+                <button type="submit" class="btn btn-default">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="jsFragment">
+    <script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/bower_components/bootswatch-dist/js/bootstrap.min.js}"></script>
+</div>
+</body>
+</html>
