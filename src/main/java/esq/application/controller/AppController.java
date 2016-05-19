@@ -1,25 +1,41 @@
 package esq.application.controller;
 
+import esq.application.model.ServiceQualitySurvey;
+import esq.application.model.ServiceQualitySurveyResult;
+import esq.application.repository.LinguisticTermRepository;
+import esq.application.repository.ServiceQualitySurveyRepository;
+import esq.application.repository.ServiceQualitySurveyResultRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 /**
- * Контроллер интерфейса приложения
+ * Основной контроллер приложения
  */
 
 @Controller
 public class AppController {
 
+    @Autowired
+    ServiceQualitySurveyRepository serviceQualitySurveyRepository;
+    @Autowired
+    ServiceQualitySurveyResultRepository serviceQualitySurveyResultRepository;
+    @Autowired
+    LinguisticTermRepository linguisticTermRepository;
+
     @RequestMapping(value = "/")
     public String getHomePage() {
-        return "master";
+        return "index";
     }
 
     @RequestMapping(value = "/survey/list")
     public String surveyList(Model model) {
-        model.addAttribute("name", "Survey list page");
-        return "master";
+        Iterable<ServiceQualitySurvey> results = serviceQualitySurveyRepository.findAll();
+        model.addAttribute("surveys", results);
+        return "survey_list";
     }
 
 }
