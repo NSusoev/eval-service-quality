@@ -16,16 +16,12 @@ public class LinguisticTerm {
     // название термы
     @Column(unique = true, nullable = false)
     private String name;
-    // значение
-    @Column(unique = true, nullable = false)
-    private byte value;
 
     protected LinguisticTerm() {
     }
 
-    public LinguisticTerm(String name, byte value) {
+    public LinguisticTerm(String name) {
         this.name = name;
-        this.value = value;
     }
 
     public long getId() {
@@ -44,17 +40,9 @@ public class LinguisticTerm {
         this.name = name;
     }
 
-    public byte getValue() {
-        return value;
-    }
-
-    public void setValue(byte value) {
-        this.value = value;
-    }
-
     @Override
     public String toString() {
-        return String.format("LinguisticTerm[id=%d, name=%s, value=%d]", id, name, value);
+        return String.format("LinguisticTerm[id=%d, name=%s]", id, name);
     }
 
 }

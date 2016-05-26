@@ -259,11 +259,11 @@ INSERT INTO services_service_quality_criterias(services_id, service_quality_crit
 
 -- Лингвистическая шкала
 
-INSERT INTO linguistic_terms(id, name, value) VALUES(1,'очень низкое', 1);
-INSERT INTO linguistic_terms(id, name, value) VALUES(2,'низкое', 2);
-INSERT INTO linguistic_terms(id, name, value) VALUES(3,'среднее', 3);
-INSERT INTO linguistic_terms(id, name, value) VALUES(4,'высокое', 4);
-INSERT INTO linguistic_terms(id, name, value) VALUES(5,'очень высокое', 5);
+INSERT INTO linguistic_terms(id, name) VALUES(1,'очень низкое');
+INSERT INTO linguistic_terms(id, name) VALUES(2,'низкое');
+INSERT INTO linguistic_terms(id, name) VALUES(3,'среднее');
+INSERT INTO linguistic_terms(id, name) VALUES(4,'высокое');
+INSERT INTO linguistic_terms(id, name) VALUES(5,'очень высокое');
 
 -- Политики округления при расчёте оценки качества
 
