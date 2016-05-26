@@ -101,7 +101,9 @@
                             <url>${spring.datasource.url}</url>
                             <username>${spring.datasource.username}</username>
                             <password>${spring.datasource.password}</password>
+                            <delimiterType>row</delimiterType>
                             <srcFiles>
+                                <srcFile>src/main/resources/sql/triggers.sql</srcFile>
                                 <srcFile>src/main/resources/sql/init.sql</srcFile>
                                 <srcFile>src/main/resources/sql/test_survey_results.sql</srcFile>
                             </srcFiles>
