@@ -26,6 +26,10 @@ public class ServiceQualitySurveyResult {
     // оценка восприятия
     @ManyToOne
     private LinguisticTerm afterUseMark;
+    // оценка качества рассчитывается на основе оценок ожидания и восприятия
+    // с помощью триггера в БД
+    @ManyToOne
+    private LinguisticTerm qualityMark;
     // оценка важности
     @ManyToOne
     private LinguisticTerm importanceMark;
@@ -81,6 +85,14 @@ public class ServiceQualitySurveyResult {
         this.serviceQualitySurvey = serviceQualitySurvey;
     }
 
+    public LinguisticTerm getQualityMark() {
+        return qualityMark;
+    }
+
+    public void setQualityMark(LinguisticTerm qualityMark) {
+        this.qualityMark = qualityMark;
+    }
+
     public ServiceQualitySurvey getServiceQualitySurvey() {
         return this.serviceQualitySurvey;
     }
@@ -97,10 +109,5 @@ public class ServiceQualitySurveyResult {
     public String toString() {
         return String.format("ServiceQualitySurveyResult[id=%d, service quality criteria=%s,expectation mark=%s, after use mark=%s, importance mark=%s, survey=%s]",
                 id, serviceQualityCriteria, expectationMark, afterUseMark, importanceMark, serviceQualitySurvey);
-    }
-
-    // Расчёт оценки качества на основе оценок ожидания и восприятия
-    public int getQualityMark() {
-        return Math.max(Math.min(2 * this.afterUseMark.getValue() - this.expectationMark.getValue(), 5), 1);
     }
 }
