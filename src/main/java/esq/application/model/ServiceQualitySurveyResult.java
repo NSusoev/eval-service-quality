@@ -1,7 +1,6 @@
 package esq.application.model;
 
 import javax.persistence.*;
-import java.lang.Math;
 
 /**
  * Результаты опросов клиентов
