@@ -38,25 +38,25 @@ INSERT INTO services(id, name) VALUES(15,'Лизинг');
 
 -- Предназначение услуг для категорий клиентов
 
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(1,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(2,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(3,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(4,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(5,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(6,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(7,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(8,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(9,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(10,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(11,1);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(1,2);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(2,2);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(3,2);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(4,2);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(7,2);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(12,2);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(13,2);
-INSERT INTO services_client_categories_for(services_id, client_categories_for_id) VALUES(14,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(1,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(2,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(3,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(4,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(5,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(6,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(7,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(8,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(9,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(10,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(11,1);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(1,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(2,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(3,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(4,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(7,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(12,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(13,2);
+INSERT INTO services_client_categories_for(services_for_this_category_id, client_categories_for_id) VALUES(14,2);
 
 -- Критерии оценивания услуг
 

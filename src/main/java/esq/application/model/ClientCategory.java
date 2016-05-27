@@ -17,9 +17,10 @@ public class ClientCategory {
     private long id;
     @Column(unique = true, nullable = false)
     private String name;
-
     @ManyToMany
     private Set<ClientGroup> clientGroups = new HashSet<ClientGroup>();
+    @ManyToMany(mappedBy = "clientCategoriesFor")
+    private Set<Service> servicesForThisCategory = new HashSet<>();
 
     protected ClientCategory() {
     }
@@ -55,6 +56,14 @@ public class ClientCategory {
 
     public void setClientGroups(Set<ClientGroup> clientGroups) {
         this.clientGroups = clientGroups;
+    }
+
+    public Set<Service> getServicesForThisCategory() {
+        return servicesForThisCategory;
+    }
+
+    public void setServicesForThisCategory(Set<Service> servicesForThisCategory) {
+        this.servicesForThisCategory = servicesForThisCategory;
     }
 
     @Override
