@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -52,20 +54,27 @@ public class ESQCalculator {
         log.debug("ENTER");
         List<ESQSurveyResultGroup> resultGroups = new ArrayList<>();
 
+        // TODO: подумать над рефакторингом в следующих релизах, тк будет медленно работать
         for (ClientCategory category : clientCategoryRepository.findAll()) {
             for (ClientGroup group : category.getClientGroups()) {
-                for (Service service : category.getServicesForThisCategory()) {
+                for (esq.application.model.Service service: category.getServicesForThisCategory()) {
                     for (ServiceQualityCriteria criteria : service.getServiceQualityCriterias()) {
+                        Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks = new HashMap<>();
+
                         for (LinguisticTerm importance : linguisticTermRepository.findAll()) {
-                            List<LinguisticTerm> qualityMarks = linguisticTermRepository.findQualityMarksForGroup(
+                            List<LinguisticTerm> qualityMarksForImportanceGroup = linguisticTermRepository.findQualityMarksForGroup(
                                     category.getId(),
                                     group.getId(),
                                     service.getId(),
                                     criteria.getId(),
                                     importance.getId());
-                            if (qualityMarks != null) {
-                                resultGroups.add(new ESQSurveyResultGroup(category, group, service, criteria, importance, qualityMarks));
+                            if (!qualityMarksForImportanceGroup.isEmpty()) {
+                                qualityMarks.put(importance, qualityMarksForImportanceGroup);
                             }
+                        }
+
+                        if (!qualityMarks.isEmpty()) {
+                            resultGroups.add(new ESQSurveyResultGroup(category, group, service, criteria, qualityMarks));
                         }
                     }
                 }
