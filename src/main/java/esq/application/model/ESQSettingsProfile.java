@@ -26,7 +26,7 @@ public class ESQSettingsProfile {
     private Set<ESQClientGroupImportance> esqClientGroupImportances = new HashSet<ESQClientGroupImportance>();
     // политика округления
     @OneToOne
-    private ESQRoudingPolicy esqRoudingPolicy;
+    private ESQRoundingPolicy esqRoundingPolicy;
 
     protected ESQSettingsProfile() {
     }
@@ -35,23 +35,23 @@ public class ESQSettingsProfile {
         this.name = name;
     }
 
-    public ESQSettingsProfile(String name, ESQRoudingPolicy esqRoudingPolicy) {
+    public ESQSettingsProfile(String name, ESQRoundingPolicy esqRoundingPolicy) {
         this.name = name;
-        this.esqRoudingPolicy = esqRoudingPolicy;
+        this.esqRoundingPolicy = esqRoundingPolicy;
     }
 
-    public ESQSettingsProfile(String name, ESQRoudingPolicy esqRoudingPolicy,
+    public ESQSettingsProfile(String name, ESQRoundingPolicy esqRoundingPolicy,
                               Set<ESQClientCategoryImportance> esqClientCategoryImportances) {
         this.name = name;
-        this.esqRoudingPolicy = esqRoudingPolicy;
+        this.esqRoundingPolicy = esqRoundingPolicy;
         this.esqClientCategoryImportances = esqClientCategoryImportances;
     }
 
-    public ESQSettingsProfile(String name, ESQRoudingPolicy esqRoudingPolicy,
+    public ESQSettingsProfile(String name, ESQRoundingPolicy esqRoundingPolicy,
                               Set<ESQClientCategoryImportance> esqClientCategoryImportances,
                               Set<ESQClientGroupImportance> esqClientGroupImportances) {
         this.name = name;
-        this.esqRoudingPolicy = esqRoudingPolicy;
+        this.esqRoundingPolicy = esqRoundingPolicy;
         this.esqClientCategoryImportances = esqClientCategoryImportances;
         this.esqClientGroupImportances = esqClientGroupImportances;
     }
@@ -80,12 +80,12 @@ public class ESQSettingsProfile {
         this.esqClientGroupImportances = groupImportances;
     }
 
-    public ESQRoudingPolicy getEsqRoudingPolicy() {
-        return this.esqRoudingPolicy;
+    public ESQRoundingPolicy getEsqRoundingPolicy() {
+        return this.esqRoundingPolicy;
     }
 
-    public void setEsqRoudingPolicy(ESQRoudingPolicy esqRoudingPolicy) {
-        this.esqRoudingPolicy = esqRoudingPolicy;
+    public void setEsqRoundingPolicy(ESQRoundingPolicy esqRoundingPolicy) {
+        this.esqRoundingPolicy = esqRoundingPolicy;
     }
 
     @Override

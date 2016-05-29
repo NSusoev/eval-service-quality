@@ -267,9 +267,9 @@ INSERT INTO linguistic_terms(id, name) VALUES(5,'очень высокое');
 
 -- Политики округления при расчёте оценки качества
 
-INSERT INTO esqrouding_policies(id, name) VALUES(1, 'мягкая');
-INSERT INTO esqrouding_policies(id, name) VALUES(2, 'нейтральная');
-INSERT INTO esqrouding_policies(id, name) VALUES(3, 'жесткая');
+INSERT INTO esqrounding_policies(id, name) VALUES(1, 'мягкая');
+INSERT INTO esqrounding_policies(id, name) VALUES(2, 'нейтральная');
+INSERT INTO esqrounding_policies(id, name) VALUES(3, 'жесткая');
 
 -- Профиль с настройками расчёта
 

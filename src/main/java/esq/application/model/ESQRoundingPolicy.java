@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ESQRoudingPolicies")
-public class ESQRoudingPolicy {
+public class ESQRoundingPolicy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,10 +17,10 @@ public class ESQRoudingPolicy {
     @Column(unique = true, nullable = false)
     private String name;
 
-    protected ESQRoudingPolicy() {
+    protected ESQRoundingPolicy() {
     }
 
-    public ESQRoudingPolicy(String name) {
+    public ESQRoundingPolicy(String name) {
         this.name = name;
     }
 
