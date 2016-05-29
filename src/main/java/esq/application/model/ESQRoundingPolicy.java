@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "ESQRoudingPolicies")
+@Table(name = "ESQRoundingPolicies")
 public class ESQRoundingPolicy {
 
     @Id

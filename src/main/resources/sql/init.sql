@@ -274,7 +274,7 @@ INSERT INTO esqrounding_policies(id, name) VALUES(3, 'жесткая');
 -- Профиль с настройками расчёта
 
 INSERT INTO esqsettings_profiles(
-            id, name, esq_rouding_policy_id)
+            id, name, esq_rounding_policy_id)
     VALUES (1, 'test', 1);
 
 INSERT INTO esqclient_category_importances(
