@@ -20,9 +20,9 @@ import java.util.List;
 public class ESQAPIController {
 
     @Autowired
-    ServiceRepository serviceRepository;
+    private ServiceRepository serviceRepository;
     @Autowired
-    ServiceQualitySurveyRepository serviceQualitySurveyRepository;
+    private ServiceQualitySurveyRepository serviceQualitySurveyRepository;
 
     @RequestMapping("/service/create/{name}")
     public Service createService(@PathVariable String name) {
