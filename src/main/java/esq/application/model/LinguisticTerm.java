@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "LinguisticTerms")
-public class LinguisticTerm {
+public class LinguisticTerm implements Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +16,9 @@ public class LinguisticTerm {
     // название термы
     @Column(unique = true, nullable = false)
     private String name;
+    // вес терма(будет использоваться при агрегировании)
+    @Transient
+    private float weight = 0;
 
     protected LinguisticTerm() {
     }
@@ -38,6 +41,26 @@ public class LinguisticTerm {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public int compareTo(Object obj) {
+        LinguisticTerm term = (LinguisticTerm) obj;
+
+        if (term.id > this.id) {
+            return -1;
+        } else if (term.id < this.id) {
+            return 1;
+        }
+
+        return 0;
     }
 
     @Override
