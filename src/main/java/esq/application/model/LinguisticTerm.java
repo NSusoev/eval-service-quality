@@ -65,7 +65,7 @@ public class LinguisticTerm implements Comparable {
 
     @Override
     public String toString() {
-        return String.format("LinguisticTerm[id=%d, name=%s]", id, name);
+        return String.format("LinguisticTerm[id = %d, name = %s, weight = %s]", id, name, weight);
     }
 
 }
