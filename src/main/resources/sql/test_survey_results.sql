@@ -233,5 +233,85 @@ INSERT INTO service_quality_survey_results(
 INSERT INTO service_quality_survey_results(
             id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
             service_quality_criteria_id, service_quality_survey_id)
-    VALUES (41, 1, 4, 5, null, 20, 7);
+    VALUES (41, 1, 2, 5, null, 20, 7);
 
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (8, '1.04.2016', 1, 1, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (42, 1, 2, 5, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (9, '1.04.2016', 1, 1, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (43, 2, 3, 5, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (10, '1.04.2016', 1, 1, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (44, 3, 1, 5, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (11, '1.04.2016', 1, 1, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (45, 2, 5, 5, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (12, '1.04.2016', 1, 1, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (46, 5, 3, 3, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (13, '1.04.2016', 2, 2, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (47, 4, 2, 3, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (14, '1.04.2016', 2, 2, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (48, 2, 2, 3, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (15, '1.04.2016', 2, 2, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (49, 3, 3, 3, null, 18, 7);
+
+INSERT INTO service_quality_surveys(
+            id, survey_date, client_category_id, client_group_id, service_id)
+    VALUES (16, '1.04.2016', 2, 2, 4);
+
+INSERT INTO service_quality_survey_results(
+            id, after_use_mark_id, expectation_mark_id, importance_mark_id, quality_mark_id,
+            service_quality_criteria_id, service_quality_survey_id)
+    VALUES (50, 3, 2, 3, null, 18, 7);
