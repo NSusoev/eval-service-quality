@@ -2,6 +2,7 @@ package esq.core;
 
 import esq.application.model.*;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class ESQSurveyResultGroup {
     private Service service;
     private ServiceQualityCriteria serviceQualityCriteria;
     private Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks;
+    private Map<LinguisticTerm, LinguisticTerm> aggregatedQualityMarks = new HashMap<>();
 
     public ESQSurveyResultGroup(ClientCategory clientCategory,
                                 ClientGroup clientGroup,
@@ -71,10 +73,21 @@ public class ESQSurveyResultGroup {
         this.qualityMarks = qualityMarks;
     }
 
+    public Map<LinguisticTerm, LinguisticTerm> getAggregatedQualityMarks() {
+        return aggregatedQualityMarks;
+    }
+
+    public void setAggregatedQualityMarks(Map<LinguisticTerm, LinguisticTerm> aggregatedQualityMarks) {
+        this.aggregatedQualityMarks = aggregatedQualityMarks;
+    }
+
+
     @Override
     public String toString() {
-        return String.format("ESQSurveyResultGroup[clientCategory = %s, clientGroup = %s, service = %s, serviceQualityCriteria = %s, qualityMarks = %s]\n\n",
-                clientCategory.getName(), clientGroup.getName(), service.getName(), serviceQualityCriteria.getName(), qualityMarks);
+        return String.format("ESQSurveyResultGroup[clientCategory = %s, clientGroup = %s, service = %s," +
+                " serviceQualityCriteria = %s, qualityMarks = %s, aggregatedQualityMarks = %s]\n\n",
+                clientCategory.getName(), clientGroup.getName(), service.getName(), serviceQualityCriteria.getName(),
+                qualityMarks, aggregatedQualityMarks);
     }
 
     public String getQualityMarksListView(LinguisticTerm group) {
