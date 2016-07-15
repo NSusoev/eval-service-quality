@@ -14,7 +14,7 @@ public interface LinguisticTermRepository extends CrudRepository<LinguisticTerm,
     @Query(value = "SELECT t.id, t.name" +
             " FROM service_quality_surveys s, service_quality_survey_results r, linguistic_terms t" +
             " WHERE s.id = r.service_quality_survey_id " +
-                "and r.importance_mark_id = t.id " +
+                "and r.quality_mark_id = t.id " +
                 "and s.client_category_id = ?1 " +
                 "and s.client_group_id = ?2 " +
                 "and s.service_id = ?3 " +
