@@ -83,6 +83,41 @@ public class ESQCalculator {
         return resultGroups;
     }
 
+    public void calculateAggregatedQualityMarks(List<ESQSurveyResultGroup> esqSurveyResultGroups) {
+        log.debug("ENTER");
+
+        for (ESQSurveyResultGroup esqSurveyResultGroup : esqSurveyResultGroups) {
+            for (LinguisticTerm importanceMark : esqSurveyResultGroup.getQualityMarks().keySet()) {
+
+                Collections.sort(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
+                log.debug("COLLECTION AFTER SORTING = {}", esqSurveyResultGroup.getQualityMarks().get(importanceMark));
+                long aggregatedMark = (long)calculateAggregatedQualityMark(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
+                esqSurveyResultGroup.getAggregatedQualityMarks().put(importanceMark, linguisticTermRepository.findOne(aggregatedMark));
+            }
+            log.debug("AGGREGATED MARKS = {}", esqSurveyResultGroup.getAggregatedQualityMarks());
+        }
+        log.debug("EXIT");
+    }
+
+    private float calculateAggregatedQualityMark(List<LinguisticTerm> qualityMarks) {
+        log.debug("ENTER");
+
+        if (qualityMarks.size() < 2) {
+            return qualityMarks.get(0).getId();
+        }
+
+        generateImportanceWeightsForQualityMarks(qualityMarks);
+        log.debug("TERMS WITH NEW WEIGHTS = {}", qualityMarks);
+
+        if (qualityMarks.size() > 2) {
+            long result = (long)calculateAggregatedQualityMark(qualityMarks.subList(1, qualityMarks.size() - 1));
+            return Math.min(5, result + Math.round(qualityMarks.get(0).getWeight() * (qualityMarks.get(0).getId() - result)));
+        }
+
+        log.debug("EXIT");
+        return Math.min(5, qualityMarks.get(1).getId() + Math.round(qualityMarks.get(0).getWeight() * (qualityMarks.get(0).getId() - qualityMarks.get(1).getId())));
+    }
+
     private void generateImportanceWeightsForQualityMarks(List<LinguisticTerm> qualityMarks) {
         // заглушка
         float weight = 1 / qualityMarks.size();
