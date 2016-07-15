@@ -49,7 +49,7 @@ public class AppController {
     }
 
     @RequestMapping(value = "/esq/group")
-    public String evalServiceQuality(Model model) {
+    public String getSurveyGroups(Model model) {
         log.debug("ENTER");
         ESQSettingsProfile settings = settingsProfileRepository.findOne(1L);
         esqCalculator.setSettingsProfile(settings);
@@ -58,6 +58,19 @@ public class AppController {
         model.addAttribute("groups", groups);
         log.debug("EXIT");
         return "esq_groups";
+    }
+
+    @RequestMapping(value = "/esq/aggr")
+    public String getAggregatedMarks(Model model) {
+        log.debug("ENTER");
+        ESQSettingsProfile settings = settingsProfileRepository.findOne(1L);
+        esqCalculator.setSettingsProfile(settings);
+        List<ESQSurveyResultGroup> groups = esqCalculator.getGroupedSurveyResults();
+        esqCalculator.calculateAggregatedQualityMarks(groups);
+        log.debug("GROUPS WITH AGG MARKS = {}", groups);
+        model.addAttribute("groups", groups);
+        log.debug("EXIT");
+        return "esq_aggr";
     }
 
 }

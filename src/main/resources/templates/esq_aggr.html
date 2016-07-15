@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: headerFragment"></head>
+<body>
+    <div th:include="layout :: topNavBarFragment" class="navbar navbar-default"></div>
+
+    <div class="container">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1>Aгрегированные оценки качества</h1>
+            </div>
+            <ul class="list-group">
+                <li th:each="group : ${groups}" class="list-group-item">
+                    <p>
+                        <span th:text="${group.getClientCategory().getName()}" class="label label-primary"></span>
+                        <span th:text="${group.getClientGroup().getName()}" class="label label-primary"></span>
+                        <span th:text="${group.getService().getName()}" class="label label-success"></span>
+                        <span th:text="${group.getServiceQualityCriteria().getName()}" class="label label-success"></span>
+                    </p>
+
+                    <p th:each="importantMark : ${group.getAggregatedQualityMarks().keySet()}">
+                        <strong><span th:text="${importantMark.getName()}" class="label label-danger"></span></strong>
+                        <strong><span th:text="${group.getAggregatedQualityMarks().get(importantMark).getName()}" class="label label-danger"></span></strong>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <th:block th:include="layout :: jsFragment"></th:block>
+</body>
+</html>
