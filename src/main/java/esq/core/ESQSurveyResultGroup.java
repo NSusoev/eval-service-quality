@@ -13,56 +13,13 @@ import java.util.Map;
 
 public class ESQSurveyResultGroup {
 
-    private ClientCategory clientCategory;
-    private ClientGroup clientGroup;
-    private Service service;
-    private ServiceQualityCriteria serviceQualityCriteria;
     private Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks;
     private Map<LinguisticTerm, LinguisticTerm> aggregatedQualityMarks = new HashMap<>();
+    private ESQSurveyResultGroupMeta esqSurveyResultGroupMeta;
 
-    public ESQSurveyResultGroup(ClientCategory clientCategory,
-                                ClientGroup clientGroup,
-                                Service service,
-                                ServiceQualityCriteria serviceQualityCriteria,
-                                Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks) {
-        this.clientCategory = clientCategory;
-        this.clientGroup = clientGroup;
-        this.service = service;
-        this.serviceQualityCriteria = serviceQualityCriteria;
+    public ESQSurveyResultGroup(ESQSurveyResultGroupMeta esqSurveyResultGroupMeta, Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks) {
         this.qualityMarks = qualityMarks;
-
-    }
-
-    public ClientCategory getClientCategory() {
-        return this.clientCategory;
-    }
-
-    public void setClientCategory(ClientCategory clientCategory) {
-        this.clientCategory = clientCategory;
-    }
-
-    public ClientGroup getClientGroup() {
-        return clientGroup;
-    }
-
-    public void setClientGroup(ClientGroup clientGroup) {
-        this.clientGroup = clientGroup;
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public void setService(Service service) {
-        this.service = service;
-    }
-
-    public ServiceQualityCriteria getServiceQualityCriteria() {
-        return serviceQualityCriteria;
-    }
-
-    public void setServiceQualityCriteria(ServiceQualityCriteria serviceQualityCriteria) {
-        this.serviceQualityCriteria = serviceQualityCriteria;
+        this.esqSurveyResultGroupMeta = esqSurveyResultGroupMeta;
     }
 
     public Map<LinguisticTerm, List<LinguisticTerm>> getQualityMarks() {
@@ -81,13 +38,19 @@ public class ESQSurveyResultGroup {
         this.aggregatedQualityMarks = aggregatedQualityMarks;
     }
 
+    public ESQSurveyResultGroupMeta getESQSurveyResultGroupMeta() {
+        return esqSurveyResultGroupMeta;
+    }
+
+    public void setESQSurveyResultGroupMeta(ESQSurveyResultGroupMeta esqSurveyResultGroupMeta) {
+        this.esqSurveyResultGroupMeta = esqSurveyResultGroupMeta;
+    }
+
 
     @Override
     public String toString() {
-        return String.format("ESQSurveyResultGroup[clientCategory = %s, clientGroup = %s, service = %s," +
-                " serviceQualityCriteria = %s, qualityMarks = %s, aggregatedQualityMarks = %s]\n\n",
-                clientCategory.getName(), clientGroup.getName(), service.getName(), serviceQualityCriteria.getName(),
-                qualityMarks, aggregatedQualityMarks);
+        return String.format("ESQSurveyResultGroup[MetaInfo = %s, qualityMarks = %s, aggregatedQualityMarks = %s]\n\n",
+                esqSurveyResultGroupMeta, qualityMarks, aggregatedQualityMarks);
     }
 
     public String getQualityMarksListView(LinguisticTerm group) {

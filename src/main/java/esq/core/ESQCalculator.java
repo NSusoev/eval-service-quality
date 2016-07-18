@@ -23,13 +23,7 @@ public class ESQCalculator {
     @Autowired
     private LinguisticTermRepository linguisticTermRepository;
     @Autowired
-    private ClientCategoryRepository clientCategoryRepository;
-    @Autowired
-    private ClientGroupRepository clientGroupRepository;
-    @Autowired
-    private ServiceRepository serviceRepository;
-    @Autowired
-    private ServiceQualityCriteriaRepository serviceQualityCriteriaRepository;
+    private ESQSurveyResultGroupMetaDAO esqSurveyResultGroupMetaDAO;
 
     public ESQCalculator() {
 
@@ -51,30 +45,27 @@ public class ESQCalculator {
         log.debug("ENTER");
         List<ESQSurveyResultGroup> resultGroups = new ArrayList<>();
 
-        // TODO: подумать над рефакторингом в следующих релизах, тк будет медленно работать
-        for (ClientCategory category : clientCategoryRepository.findAll()) {
-            for (ClientGroup group : category.getClientGroups()) {
-                for (esq.application.model.Service service: category.getServicesForThisCategory()) {
-                    for (ServiceQualityCriteria criteria : service.getServiceQualityCriterias()) {
-                        Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks = new HashMap<>();
+        List<ESQSurveyResultGroupMeta> groupsMeta = esqSurveyResultGroupMetaDAO.findAllMetaGroups();
+        log.debug("groupsMeta = {}", groupsMeta);
 
-                        for (LinguisticTerm importance : linguisticTermRepository.findAll()) {
-                            List<LinguisticTerm> qualityMarksForImportanceGroup = linguisticTermRepository.findQualityMarksForGroup(
-                                    category.getId(),
-                                    group.getId(),
-                                    service.getId(),
-                                    criteria.getId(),
-                                    importance.getId());
-                            if (!qualityMarksForImportanceGroup.isEmpty()) {
-                                qualityMarks.put(importance, qualityMarksForImportanceGroup);
-                            }
-                        }
+        for (ESQSurveyResultGroupMeta groupMeta : groupsMeta) {
+            Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks = new HashMap<>();
 
-                        if (!qualityMarks.isEmpty()) {
-                            resultGroups.add(new ESQSurveyResultGroup(category, group, service, criteria, qualityMarks));
-                        }
-                    }
+            for (LinguisticTerm importance : linguisticTermRepository.findAll()) {
+                List<LinguisticTerm> qualityMarksForImportanceGroup = linguisticTermRepository.findQualityMarksForGroup(
+                        groupMeta.getClientCategory().getId(),
+                        groupMeta.getClientGroup().getId(),
+                        groupMeta.getService().getId(),
+                        groupMeta.getServiceQualityCriteria().getId(),
+                        importance.getId());
+
+                if (!qualityMarksForImportanceGroup.isEmpty()) {
+                    qualityMarks.put(importance, qualityMarksForImportanceGroup);
                 }
+            }
+
+            if (!qualityMarks.isEmpty()) {
+                resultGroups.add(new ESQSurveyResultGroup(groupMeta, qualityMarks));
             }
         }
 
@@ -91,16 +82,23 @@ public class ESQCalculator {
 
                 Collections.sort(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
                 log.debug("COLLECTION AFTER SORTING = {}", esqSurveyResultGroup.getQualityMarks().get(importanceMark));
-                long aggregatedMark = (long)calculateAggregatedQualityMark(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
-                esqSurveyResultGroup.getAggregatedQualityMarks().put(importanceMark, linguisticTermRepository.findOne(aggregatedMark));
+                try {
+                    long aggregatedMark = (long)calculateAggregatedQualityMark(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
+                    esqSurveyResultGroup.getAggregatedQualityMarks().put(importanceMark, linguisticTermRepository.findOne(aggregatedMark));
+                } catch (IllegalArgumentException e) {
+                    log.error(e.toString());
+                }
             }
             log.debug("AGGREGATED MARKS = {}", esqSurveyResultGroup.getAggregatedQualityMarks());
         }
         log.debug("EXIT");
     }
 
-    private float calculateAggregatedQualityMark(List<LinguisticTerm> qualityMarks) {
+    private float calculateAggregatedQualityMark(List<LinguisticTerm> qualityMarks) throws IllegalArgumentException {
         log.debug("ENTER");
+        if (qualityMarks == null) {
+            throw new IllegalArgumentException("qualityMarks is null");
+        }
 
         if (qualityMarks.size() < 2) {
             return qualityMarks.get(0).getId();
