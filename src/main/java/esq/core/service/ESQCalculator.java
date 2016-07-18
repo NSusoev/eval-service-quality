@@ -1,7 +1,10 @@
-package esq.core;
+package esq.core.service;
 
 import esq.application.model.*;
 import esq.application.repository.*;
+import esq.core.model.ESQSurveyResultGroup;
+import esq.core.model.ESQSurveyResultGroupMeta;
+import esq.core.repository.ESQSurveyResultGroupMetaDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

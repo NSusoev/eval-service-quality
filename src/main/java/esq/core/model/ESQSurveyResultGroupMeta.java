@@ -1,4 +1,4 @@
-package esq.core;
+package esq.core.model;
 
 import esq.application.model.ClientCategory;
 import esq.application.model.ClientGroup;

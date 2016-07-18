@@ -1,6 +1,7 @@
-package esq.core;
+package esq.core.repository;
 
 import esq.application.repository.*;
+import esq.core.model.ESQSurveyResultGroupMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
