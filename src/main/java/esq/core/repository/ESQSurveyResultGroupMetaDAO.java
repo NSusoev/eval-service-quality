@@ -41,4 +41,31 @@ public class ESQSurveyResultGroupMetaDAO {
         return groupsMeta;
     }
 
+    public float getFrequenceOfMarkForSubCriteria(Long clientCategoryId, Long clientGroupId, Long serviceId,
+                                                        Long criteriaId, Long qualityMarkId) {
+        float frequence = this.jdbcTemplate.queryForObject(
+                "SELECT count::float / vse as frequence\n" +
+                        "FROM\n" +
+                        "(SELECT count(*) as count\n" +
+                        "FROM service_quality_surveys s, service_quality_survey_results r\n" +
+                        "WHERE s.id = r.service_quality_survey_id\n" +
+                        "and s.client_category_id = ?\n" +
+                        "and s.client_group_id = ?\n" +
+                        "and s.service_id = ?\n" +
+                        "and r.service_quality_criteria_id = ?\n" +
+                        "and r.quality_mark_id = ?) as cnt,\n" +
+                        "(SELECT count(*) as vse\n" +
+                        "FROM service_quality_surveys s, service_quality_survey_results r\n" +
+                        "WHERE s.id = r.service_quality_survey_id\n" +
+                        "and s.client_category_id = ?\n" +
+                        "and s.client_group_id = ?\n" +
+                        "and s.service_id = ?\n" +
+                        "and r.service_quality_criteria_id = ?) as vse",
+                new Object[] { clientCategoryId, clientGroupId, serviceId, criteriaId, qualityMarkId,
+                                clientCategoryId, clientGroupId, serviceId, criteriaId },
+                Float.class);
+
+        return frequence;
+    }
+
 }
