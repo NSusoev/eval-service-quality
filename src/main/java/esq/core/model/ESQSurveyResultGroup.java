@@ -13,9 +13,10 @@ import java.util.Map;
 
 public class ESQSurveyResultGroup {
 
+    private ESQSurveyResultGroupMeta esqSurveyResultGroupMeta;
     private Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks;
     private Map<LinguisticTerm, LinguisticTerm> aggregatedQualityMarks = new HashMap<>();
-    private ESQSurveyResultGroupMeta esqSurveyResultGroupMeta;
+    private Map<LinguisticTerm, Float> marksFrequences = new HashMap<>();
 
     public ESQSurveyResultGroup(ESQSurveyResultGroupMeta esqSurveyResultGroupMeta, Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks) {
         this.qualityMarks = qualityMarks;
@@ -46,11 +47,19 @@ public class ESQSurveyResultGroup {
         this.esqSurveyResultGroupMeta = esqSurveyResultGroupMeta;
     }
 
+    public Map<LinguisticTerm, Float> getMarksFrequences() {
+        return marksFrequences;
+    }
+
+    public void setMarksFrequences(Map<LinguisticTerm, Float> marksFrequences) {
+        this.marksFrequences = marksFrequences;
+    }
 
     @Override
     public String toString() {
-        return String.format("ESQSurveyResultGroup[MetaInfo = %s, qualityMarks = %s, aggregatedQualityMarks = %s]\n\n",
-                esqSurveyResultGroupMeta, qualityMarks, aggregatedQualityMarks);
+        return String.format("ESQSurveyResultGroup[MetaInfo = %s, qualityMarks = %s," +
+                " aggregatedQualityMarks = %s, marksFrequences = %s]\n\n",
+                esqSurveyResultGroupMeta, qualityMarks, aggregatedQualityMarks, marksFrequences);
     }
 
     public String getQualityMarksListView(LinguisticTerm group) {
