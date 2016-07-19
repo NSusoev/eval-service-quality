@@ -68,7 +68,9 @@ public class ESQCalculator {
             }
 
             if (!qualityMarks.isEmpty()) {
-                resultGroups.add(new ESQSurveyResultGroup(groupMeta, qualityMarks));
+                ESQSurveyResultGroup group = new ESQSurveyResultGroup(groupMeta, qualityMarks);
+                calculaceLinguisticTermsFrequences(group);
+                resultGroups.add(group);
             }
         }
 
@@ -126,6 +128,28 @@ public class ESQCalculator {
         for (LinguisticTerm qualityMark : qualityMarks) {
             qualityMark.setWeight(weight);
         }
+    }
+
+    private void calculaceLinguisticTermsFrequences(ESQSurveyResultGroup group) throws IllegalArgumentException {
+        log.debug("ENTER");
+        if (group == null) {
+            throw new IllegalArgumentException("qualityMarks is null");
+        }
+
+        for (LinguisticTerm qualityMark : linguisticTermRepository.findAll()) {
+            float frequence = esqSurveyResultGroupMetaDAO.getFrequenceOfMarkForSubCriteria(group.getESQSurveyResultGroupMeta().getClientCategory().getId(),
+                    group.getESQSurveyResultGroupMeta().getClientGroup().getId(),
+                    group.getESQSurveyResultGroupMeta().getService().getId(),
+                    group.getESQSurveyResultGroupMeta().getServiceQualityCriteria().getId(),
+                    qualityMark.getId());
+
+            if (frequence != 0) {
+                group.getMarksFrequences().put(qualityMark, frequence);
+            }
+        }
+
+        log.debug("GROUP WITH FREQUENCES = {}", group);
+        log.debug("EXIT");
     }
 
 }
