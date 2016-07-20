@@ -55,9 +55,9 @@ public class LinguisticTerm implements Comparable {
         LinguisticTerm term = (LinguisticTerm) obj;
 
         if (term.id > this.id) {
-            return -1;
-        } else if (term.id < this.id) {
             return 1;
+        } else if (term.id < this.id) {
+            return -1;
         }
 
         return 0;
