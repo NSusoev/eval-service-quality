@@ -88,7 +88,7 @@ public class ESQCalculator {
                 Collections.sort(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
                 log.debug("COLLECTION AFTER SORTING = {}", esqSurveyResultGroup.getQualityMarks().get(importanceMark));
                 try {
-                    long aggregatedMark = (long)calculateAggregatedQualityMark(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
+                    long aggregatedMark = (long)calculateAggregatedQualityMark(importanceMark, esqSurveyResultGroup.getQualityMarks().get(importanceMark));
                     esqSurveyResultGroup.getAggregatedQualityMarks().put(importanceMark, linguisticTermRepository.findOne(aggregatedMark));
                 } catch (IllegalArgumentException e) {
                     log.error(e.toString());
@@ -99,21 +99,21 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
-    private float calculateAggregatedQualityMark(List<LinguisticTerm> qualityMarks) throws IllegalArgumentException {
+    private float calculateAggregatedQualityMark(LinguisticTerm importanceMark, List<LinguisticTerm> qualityMarks) throws IllegalArgumentException {
         log.debug("ENTER");
-        if (qualityMarks == null) {
-            throw new IllegalArgumentException("qualityMarks is null");
+        if (qualityMarks == null || importanceMark == null) {
+            throw new IllegalArgumentException();
         }
 
         if (qualityMarks.size() < 2) {
             return qualityMarks.get(0).getId();
         }
 
-        generateImportanceWeightsForQualityMarks(qualityMarks);
+        generateImportanceWeightsForQualityMarks(importanceMark, qualityMarks);
         log.debug("TERMS WITH NEW WEIGHTS = {}", qualityMarks);
 
         if (qualityMarks.size() > 2) {
-            long result = (long)calculateAggregatedQualityMark(qualityMarks.subList(1, qualityMarks.size() - 1));
+            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarks.size() - 1));
             return Math.min(5, result + Math.round(qualityMarks.get(0).getWeight() * (qualityMarks.get(0).getId() - result)));
         }
 
@@ -121,19 +121,68 @@ public class ESQCalculator {
         return Math.min(5, qualityMarks.get(1).getId() + Math.round(qualityMarks.get(0).getWeight() * (qualityMarks.get(0).getId() - qualityMarks.get(1).getId())));
     }
 
-    private void generateImportanceWeightsForQualityMarks(List<LinguisticTerm> qualityMarks) {
-        // заглушка
-        float weight = 1 / qualityMarks.size();
+    private void generateImportanceWeightsForQualityMarks(LinguisticTerm importanceMark, List<LinguisticTerm> qualityMarks)
+            throws IllegalArgumentException {
+        log.debug("ENTER");
+        if (qualityMarks == null || importanceMark == null) {
+            throw new IllegalArgumentException();
+        }
+
+        switch (importanceMark.getName()) {
+            case "очень низкое":
+                for (LinguisticTerm qualityMark : qualityMarks) {
+                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), 0.75)));
+                }
+                break;
+
+            case "низкое":
+                for (LinguisticTerm qualityMark : qualityMarks) {
+                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), 0.5)));
+                }
+                break;
+
+            case "среднее":
+                int size = qualityMarks.size();
+
+                for (LinguisticTerm qualityMark : qualityMarks) {
+                    qualityMark.setWeight(1 / size);
+                }
+                break;
+
+            case "высокое":
+                for (LinguisticTerm qualityMark : qualityMarks) {
+                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), -0.5)));
+                }
+                break;
+
+            case "очень высокое":
+                for (LinguisticTerm qualityMark : qualityMarks) {
+                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), -0.75)));
+                }
+                break;
+
+            default:
+                throw new IllegalArgumentException();
+        }
+
+        // нормализация данных
+        float sumWeight = 0;
 
         for (LinguisticTerm qualityMark : qualityMarks) {
-            qualityMark.setWeight(weight);
+            sumWeight += qualityMark.getWeight();
         }
+
+        for (LinguisticTerm qualityMark : qualityMarks) {
+            qualityMark.setWeight(qualityMark.getWeight() / sumWeight);
+        }
+
+        log.debug("EXIT");
     }
 
     private void calculaceLinguisticTermsFrequences(ESQSurveyResultGroup group) throws IllegalArgumentException {
         log.debug("ENTER");
         if (group == null) {
-            throw new IllegalArgumentException("qualityMarks is null");
+            throw new IllegalArgumentException();
         }
 
         for (LinguisticTerm qualityMark : linguisticTermRepository.findAll()) {
