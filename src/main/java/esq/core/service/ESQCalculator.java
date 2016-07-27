@@ -88,7 +88,10 @@ public class ESQCalculator {
                 Collections.sort(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
                 log.debug("COLLECTION AFTER SORTING = {}", esqSurveyResultGroup.getQualityMarks().get(importanceMark));
                 try {
-                    long aggregatedMark = (long)calculateAggregatedQualityMark(importanceMark, esqSurveyResultGroup.getQualityMarks().get(importanceMark));
+                    List<LinguisticTerm> qualityMarks = esqSurveyResultGroup.getQualityMarks().get(importanceMark);
+
+                    generateImportanceWeightsForQualityMarks(importanceMark, qualityMarks);
+                    long aggregatedMark = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks);
                     esqSurveyResultGroup.getAggregatedQualityMarks().put(importanceMark, linguisticTermRepository.findOne(aggregatedMark));
                 } catch (IllegalArgumentException e) {
                     log.error(e.toString());
@@ -109,7 +112,7 @@ public class ESQCalculator {
             return qualityMarks.get(0).getId();
         }
 
-        generateImportanceWeightsForQualityMarks(importanceMark, qualityMarks);
+        normalizeMarks(qualityMarks);
         log.debug("TERMS WITH NEW WEIGHTS = {}", qualityMarks);
 
         if (qualityMarks.size() > 2) {
@@ -128,54 +131,65 @@ public class ESQCalculator {
             throw new IllegalArgumentException();
         }
 
+        float power = 0;
+
         switch (importanceMark.getName()) {
             case "очень низкое":
-                for (LinguisticTerm qualityMark : qualityMarks) {
-                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), 0.75)));
-                }
+                power = 0.75f;
                 break;
 
             case "низкое":
-                for (LinguisticTerm qualityMark : qualityMarks) {
-                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), 0.5)));
-                }
+                power = 0.5f;
                 break;
 
             case "среднее":
-                int size = qualityMarks.size();
-
-                for (LinguisticTerm qualityMark : qualityMarks) {
-                    qualityMark.setWeight(1 / size);
-                }
+                power = 1;
                 break;
 
             case "высокое":
-                for (LinguisticTerm qualityMark : qualityMarks) {
-                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), -0.5)));
-                }
+                power = -0.5f;
                 break;
 
             case "очень высокое":
-                for (LinguisticTerm qualityMark : qualityMarks) {
-                    qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), -0.75)));
-                }
+                power = -0.75f;
                 break;
 
             default:
                 throw new IllegalArgumentException();
         }
 
-        // нормализация данных
-        float sumWeight = 0;
+        if (power == 1) {
+            float size = qualityMarks.size();
 
-        for (LinguisticTerm qualityMark : qualityMarks) {
-            sumWeight += qualityMark.getWeight();
+            for (LinguisticTerm qualityMark : qualityMarks) {
+                qualityMark.setWeight(1 / size);
+            }
+
+        } else {
+            for (LinguisticTerm qualityMark : qualityMarks) {
+                qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), power)));
+            }
         }
 
-        for (LinguisticTerm qualityMark : qualityMarks) {
-            qualityMark.setWeight(qualityMark.getWeight() / sumWeight);
+        log.debug("IMPORTANCE MARKS WITH GENERATED WEIGHTS = {}", qualityMarks);
+        log.debug("EXIT");
+    }
+
+    private void normalizeMarks(List<LinguisticTerm> qualityMarks) throws IllegalArgumentException {
+        log.debug("ENTER");
+        if (qualityMarks == null) {
+            throw new IllegalArgumentException();
         }
 
+        float maxWeight = Collections.max(qualityMarks).getWeight();
+        float minWeight = Collections.min(qualityMarks).getWeight();
+        float diff = maxWeight - minWeight;
+
+        for (LinguisticTerm qualityMark : qualityMarks) {
+            qualityMark.setWeight((qualityMark.getWeight() - minWeight) / diff);
+        }
+
+        log.debug("IMPORTANCE MARKS WITH NORMALIZED WEIGHTS = {}", qualityMarks);
         log.debug("EXIT");
     }
 
