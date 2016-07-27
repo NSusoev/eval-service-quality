@@ -181,12 +181,14 @@ public class ESQCalculator {
             throw new IllegalArgumentException();
         }
 
-        float maxWeight = Collections.max(qualityMarks).getWeight();
-        float minWeight = Collections.min(qualityMarks).getWeight();
-        float diff = maxWeight - minWeight;
+        float sumWeight = 0;
 
         for (LinguisticTerm qualityMark : qualityMarks) {
-            qualityMark.setWeight((qualityMark.getWeight() - minWeight) / diff);
+            sumWeight += qualityMark.getWeight();
+        }
+
+        for (LinguisticTerm qualityMark : qualityMarks) {
+            qualityMark.setWeight(qualityMark.getWeight() / sumWeight);
         }
 
         log.debug("IMPORTANCE MARKS WITH NORMALIZED WEIGHTS = {}", qualityMarks);
