@@ -108,15 +108,16 @@ public class ESQCalculator {
             throw new IllegalArgumentException();
         }
 
-        if (qualityMarks.size() < 2) {
+        int qualityMarksListSize = qualityMarks.size();
+
+        if (qualityMarksListSize < 2) {
             return qualityMarks.get(0).getId();
         }
 
         normalizeMarks(qualityMarks);
-        log.debug("TERMS WITH NEW WEIGHTS = {}", qualityMarks);
 
-        if (qualityMarks.size() > 2) {
-            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarks.size() - 1));
+        if (qualityMarksListSize > 2) {
+            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize - 1));
             return Math.min(5, result + Math.round(qualityMarks.get(0).getWeight() * (qualityMarks.get(0).getId() - result)));
         }
 
@@ -135,23 +136,23 @@ public class ESQCalculator {
 
         switch (importanceMark.getName()) {
             case "очень низкое":
-                power = 0.75f;
-                break;
-
-            case "низкое":
-                power = 0.5f;
-                break;
-
-            case "среднее":
                 power = 1;
                 break;
 
+            case "низкое":
+                power = -1.2f;
+                break;
+
+            case "среднее":
+                power = -1.3f;
+                break;
+
             case "высокое":
-                power = -0.5f;
+                power = -2;
                 break;
 
             case "очень высокое":
-                power = -0.75f;
+                power = -3;
                 break;
 
             default:
@@ -171,7 +172,7 @@ public class ESQCalculator {
             }
         }
 
-        log.debug("IMPORTANCE MARKS WITH GENERATED WEIGHTS = {}", qualityMarks);
+        log.debug("IMPORTANCE MARKS WITH GENERATED WEIGHTS[ {} ] = {}", importanceMark, qualityMarks);
         log.debug("EXIT");
     }
 
@@ -186,8 +187,10 @@ public class ESQCalculator {
         for (LinguisticTerm qualityMark : qualityMarks) {
             sumWeight += qualityMark.getWeight();
         }
+        log.debug("SUM WEIGHT = {}", sumWeight);
 
         for (LinguisticTerm qualityMark : qualityMarks) {
+            log.debug("WEIGHT = {}", qualityMark.getWeight());
             qualityMark.setWeight(qualityMark.getWeight() / sumWeight);
         }
 
