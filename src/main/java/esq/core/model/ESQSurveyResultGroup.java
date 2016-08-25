@@ -14,20 +14,20 @@ import java.util.Map;
 public class ESQSurveyResultGroup {
 
     private ESQSurveyResultGroupMeta esqSurveyResultGroupMeta;
-    private Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks;
+    private Map<LinguisticTerm, QualityMarksVector> qualityMarks;
     private Map<LinguisticTerm, LinguisticTerm> aggregatedQualityMarks = new HashMap<>();
     private Map<LinguisticTerm, Float> marksFrequences = new HashMap<>();
 
-    public ESQSurveyResultGroup(ESQSurveyResultGroupMeta esqSurveyResultGroupMeta, Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks) {
+    public ESQSurveyResultGroup(ESQSurveyResultGroupMeta esqSurveyResultGroupMeta, Map<LinguisticTerm, QualityMarksVector> qualityMarks) {
         this.qualityMarks = qualityMarks;
         this.esqSurveyResultGroupMeta = esqSurveyResultGroupMeta;
     }
 
-    public Map<LinguisticTerm, List<LinguisticTerm>> getQualityMarks() {
+    public Map<LinguisticTerm, QualityMarksVector> getQualityMarks() {
         return qualityMarks;
     }
 
-    public void setQualityMarks(Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks) {
+    public void setQualityMarks(Map<LinguisticTerm, QualityMarksVector> qualityMarks) {
         this.qualityMarks = qualityMarks;
     }
 
@@ -64,7 +64,7 @@ public class ESQSurveyResultGroup {
 
     public String getQualityMarksListView(LinguisticTerm group) {
         StringBuilder sb = new StringBuilder();
-        List<LinguisticTerm> marks = qualityMarks.get(group);
+        List<LinguisticTerm> marks = qualityMarks.get(group).getQualityMarks();
         Iterator<LinguisticTerm> marksIterator = marks.iterator();
         while(marksIterator.hasNext()) {
             sb.append(marksIterator.next().getName());

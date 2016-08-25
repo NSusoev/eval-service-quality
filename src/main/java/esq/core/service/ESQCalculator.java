@@ -4,6 +4,7 @@ import esq.application.model.*;
 import esq.application.repository.*;
 import esq.core.model.ESQSurveyResultGroup;
 import esq.core.model.ESQSurveyResultGroupMeta;
+import esq.core.model.QualityMarksVector;
 import esq.core.repository.ESQSurveyResultGroupMetaDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,7 @@ public class ESQCalculator {
         log.debug("groupsMeta = {}", groupsMeta);
 
         for (ESQSurveyResultGroupMeta groupMeta : groupsMeta) {
-            Map<LinguisticTerm, List<LinguisticTerm>> qualityMarks = new HashMap<>();
+            Map<LinguisticTerm, QualityMarksVector> qualityMarks = new HashMap<>();
 
             for (LinguisticTerm importance : linguisticTermRepository.findAll()) {
                 List<LinguisticTerm> qualityMarksForImportanceGroup = linguisticTermRepository.findQualityMarksForGroup(
@@ -63,7 +64,7 @@ public class ESQCalculator {
                         importance.getId());
 
                 if (!qualityMarksForImportanceGroup.isEmpty()) {
-                    qualityMarks.put(importance, qualityMarksForImportanceGroup);
+                    qualityMarks.put(importance, new QualityMarksVector(qualityMarksForImportanceGroup));
                 }
             }
 
@@ -85,13 +86,14 @@ public class ESQCalculator {
         for (ESQSurveyResultGroup esqSurveyResultGroup : esqSurveyResultGroups) {
             for (LinguisticTerm importanceMark : esqSurveyResultGroup.getQualityMarks().keySet()) {
 
-                Collections.sort(esqSurveyResultGroup.getQualityMarks().get(importanceMark));
+                Collections.sort(esqSurveyResultGroup.getQualityMarks().get(importanceMark).getQualityMarks());
                 log.debug("COLLECTION AFTER SORTING = {}", esqSurveyResultGroup.getQualityMarks().get(importanceMark));
                 try {
-                    List<LinguisticTerm> qualityMarks = esqSurveyResultGroup.getQualityMarks().get(importanceMark);
-
+                    QualityMarksVector qualityMarks = esqSurveyResultGroup.getQualityMarks().get(importanceMark);
                     generateImportanceWeightsForQualityMarks(importanceMark, qualityMarks);
-                    long aggregatedMark = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks);
+                    long aggregatedMark = (long)calculateAggregatedQualityMark(importanceMark,
+                            qualityMarks.getQualityMarks(), qualityMarks.getWeights());
+
                     esqSurveyResultGroup.getAggregatedQualityMarks().put(importanceMark, linguisticTermRepository.findOne(aggregatedMark));
                 } catch (IllegalArgumentException e) {
                     log.error(e.toString());
@@ -102,7 +104,7 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
-    private float calculateAggregatedQualityMark(LinguisticTerm importanceMark, List<LinguisticTerm> qualityMarks) throws IllegalArgumentException {
+    private float calculateAggregatedQualityMark(LinguisticTerm importanceMark, List<LinguisticTerm> qualityMarks, List<Float> weights) throws IllegalArgumentException {
         log.debug("ENTER");
         if (qualityMarks == null || importanceMark == null) {
             throw new IllegalArgumentException();
@@ -114,18 +116,18 @@ public class ESQCalculator {
             return qualityMarks.get(0).getId();
         }
 
-        normalizeMarks(qualityMarks);
+        normalizeMarks(weights);
 
         if (qualityMarksListSize > 2) {
-            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize - 1));
-            return Math.min(5, result + Math.round(qualityMarks.get(0).getWeight() * (qualityMarks.get(0).getId() - result)));
+            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize - 1), weights.subList(1, weights.size() - 1));
+            return Math.min(5, result + Math.round(weights.get(0) * (qualityMarks.get(0).getId() - result)));
         }
 
         log.debug("EXIT");
-        return Math.min(5, qualityMarks.get(1).getId() + Math.round(qualityMarks.get(0).getWeight() * (qualityMarks.get(0).getId() - qualityMarks.get(1).getId())));
+        return Math.min(5, qualityMarks.get(1).getId() + Math.round(weights.get(0) * (qualityMarks.get(0).getId() - qualityMarks.get(1).getId())));
     }
 
-    private void generateImportanceWeightsForQualityMarks(LinguisticTerm importanceMark, List<LinguisticTerm> qualityMarks)
+    private void generateImportanceWeightsForQualityMarks(LinguisticTerm importanceMark, QualityMarksVector qualityMarks)
             throws IllegalArgumentException {
         log.debug("ENTER");
         if (qualityMarks == null || importanceMark == null) {
@@ -160,15 +162,15 @@ public class ESQCalculator {
         }
 
         if (power == 1) {
-            float size = qualityMarks.size();
+            float size = qualityMarks.getWeights().size();
 
-            for (LinguisticTerm qualityMark : qualityMarks) {
-                qualityMark.setWeight(1 / size);
+            for (int i = 0; i < qualityMarks.getWeights().size(); i++) {
+                qualityMarks.getWeights().set(i, 1 / size);
             }
 
         } else {
-            for (LinguisticTerm qualityMark : qualityMarks) {
-                qualityMark.setWeight((float)(Math.pow(qualityMark.getId(), power)));
+            for (int i = 0; i < qualityMarks.getWeights().size(); i++) {
+                qualityMarks.getWeights().set(i, (float)(Math.pow(qualityMarks.getQualityMarks().get(i).getId(), power)));
             }
         }
 
@@ -176,25 +178,25 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
-    private void normalizeMarks(List<LinguisticTerm> qualityMarks) throws IllegalArgumentException {
+    private void normalizeMarks(List<Float> weights) throws IllegalArgumentException {
         log.debug("ENTER");
-        if (qualityMarks == null) {
+        if (weights == null) {
             throw new IllegalArgumentException();
         }
 
         float sumWeight = 0;
 
-        for (LinguisticTerm qualityMark : qualityMarks) {
-            sumWeight += qualityMark.getWeight();
+        for (Float weight : weights) {
+            sumWeight += weight;
         }
         log.debug("SUM WEIGHT = {}", sumWeight);
 
-        for (LinguisticTerm qualityMark : qualityMarks) {
-            log.debug("WEIGHT = {}", qualityMark.getWeight());
-            qualityMark.setWeight(qualityMark.getWeight() / sumWeight);
+        for (int i = 0; i < weights.size(); i++) {
+            log.debug("WEIGHT = {}", weights.get(i));
+            weights.set(i, weights.get(i) / sumWeight);
         }
 
-        log.debug("IMPORTANCE MARKS WITH NORMALIZED WEIGHTS = {}", qualityMarks);
+        log.debug("NORMALIZED WEIGHTS = {}", weights);
         log.debug("EXIT");
     }
 

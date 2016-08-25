@@ -16,9 +16,6 @@ public class LinguisticTerm implements Comparable {
     // название термы
     @Column(unique = true, nullable = false)
     private String name;
-    // вес терма(будет использоваться при агрегировании)
-    @Transient
-    private float weight = 0;
 
     protected LinguisticTerm() {
     }
@@ -43,14 +40,6 @@ public class LinguisticTerm implements Comparable {
         this.name = name;
     }
 
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
     public int compareTo(Object obj) {
         LinguisticTerm term = (LinguisticTerm) obj;
 
@@ -65,7 +54,7 @@ public class LinguisticTerm implements Comparable {
 
     @Override
     public String toString() {
-        return String.format("LinguisticTerm[id = %d, name = %s, weight = %s]", id, name, weight);
+        return String.format("LinguisticTerm[id = %d, name = %s]", id, name);
     }
 
 }
