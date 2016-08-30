@@ -111,6 +111,7 @@ public class ESQCalculator {
         }
 
         int qualityMarksListSize = qualityMarks.size();
+        log.debug("MARKS LIST SIZE = {}", qualityMarksListSize);
 
         if (qualityMarksListSize < 2) {
             return qualityMarks.get(0).getId();
@@ -119,7 +120,7 @@ public class ESQCalculator {
         normalizeMarks(weights);
 
         if (qualityMarksListSize > 2) {
-            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize - 1), weights.subList(1, weights.size() - 1));
+            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize), weights.subList(1, weights.size()));
             return Math.min(5, result + Math.round(weights.get(0) * (qualityMarks.get(0).getId() - result)));
         }
 
