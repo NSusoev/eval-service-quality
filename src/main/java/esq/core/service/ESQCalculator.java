@@ -135,7 +135,31 @@ public class ESQCalculator {
             throw new IllegalArgumentException();
         }
 
+        float power = getCalcPowerByImportance(importanceMark);
+
+        if (power == 1) {
+            float size = qualityMarks.getWeights().size();
+
+            for (int i = 0; i < qualityMarks.getWeights().size(); i++) {
+                qualityMarks.getWeights().set(i, 1 / size);
+            }
+
+        } else {
+            for (int i = 0; i < qualityMarks.getWeights().size(); i++) {
+                qualityMarks.getWeights().set(i, (float)(Math.pow(qualityMarks.getQualityMarks().get(i).getId(), power)));
+            }
+        }
+
+        log.debug("IMPORTANCE MARKS WITH GENERATED WEIGHTS[ {} ] = {}", importanceMark, qualityMarks);
+        log.debug("EXIT");
+    }
+
+    private float getCalcPowerByImportance(LinguisticTerm importanceMark) {
         float power = 0;
+
+        if (importanceMark == null) {
+            throw new IllegalArgumentException();
+        }
 
         switch (importanceMark.getName()) {
             case "очень низкое":
@@ -162,21 +186,7 @@ public class ESQCalculator {
                 throw new IllegalArgumentException();
         }
 
-        if (power == 1) {
-            float size = qualityMarks.getWeights().size();
-
-            for (int i = 0; i < qualityMarks.getWeights().size(); i++) {
-                qualityMarks.getWeights().set(i, 1 / size);
-            }
-
-        } else {
-            for (int i = 0; i < qualityMarks.getWeights().size(); i++) {
-                qualityMarks.getWeights().set(i, (float)(Math.pow(qualityMarks.getQualityMarks().get(i).getId(), power)));
-            }
-        }
-
-        log.debug("IMPORTANCE MARKS WITH GENERATED WEIGHTS[ {} ] = {}", importanceMark, qualityMarks);
-        log.debug("EXIT");
+        return power;
     }
 
     private void normalizeMarks(List<Float> weights) throws IllegalArgumentException {
