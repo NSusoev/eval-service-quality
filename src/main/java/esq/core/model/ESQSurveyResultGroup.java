@@ -16,7 +16,7 @@ public class ESQSurveyResultGroup {
     private ESQSurveyResultGroupMeta esqSurveyResultGroupMeta;
     private Map<LinguisticTerm, QualityMarksVector> qualityMarks;
     private Map<LinguisticTerm, LinguisticTerm> aggregatedQualityMarks = new HashMap<>();
-    private Map<LinguisticTerm, Float> marksFrequences = new HashMap<>();
+    private Map<LinguisticTerm, Float> marksFrequencies = new HashMap<>();
     private LinguisticTerm integralQualityMark = null;
 
     public ESQSurveyResultGroup(ESQSurveyResultGroupMeta esqSurveyResultGroupMeta, Map<LinguisticTerm, QualityMarksVector> qualityMarks) {
@@ -48,12 +48,12 @@ public class ESQSurveyResultGroup {
         this.esqSurveyResultGroupMeta = esqSurveyResultGroupMeta;
     }
 
-    public Map<LinguisticTerm, Float> getMarksFrequences() {
-        return marksFrequences;
+    public Map<LinguisticTerm, Float> getMarksFrequencies() {
+        return marksFrequencies;
     }
 
-    public void setMarksFrequences(Map<LinguisticTerm, Float> marksFrequences) {
-        this.marksFrequences = marksFrequences;
+    public void setMarksFrequencies(Map<LinguisticTerm, Float> marksFrequences) {
+        this.marksFrequencies = marksFrequences;
     }
 
     public LinguisticTerm getIntegralQualityMark() {
@@ -67,8 +67,8 @@ public class ESQSurveyResultGroup {
     @Override
     public String toString() {
         return String.format("ESQSurveyResultGroup[MetaInfo = %s, qualityMarks = %s," +
-                " aggregatedQualityMarks = %s, marksFrequences = %s, integralQualityMark = %s]\n\n",
-                esqSurveyResultGroupMeta, qualityMarks, aggregatedQualityMarks, marksFrequences, integralQualityMark);
+                " aggregatedQualityMarks = %s, marksFrequencies = %s, integralQualityMark = %s]\n\n",
+                esqSurveyResultGroupMeta, qualityMarks, aggregatedQualityMarks, marksFrequencies, integralQualityMark);
     }
 
     public String getQualityMarksListView(LinguisticTerm group) {

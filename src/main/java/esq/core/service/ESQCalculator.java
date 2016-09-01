@@ -70,7 +70,7 @@ public class ESQCalculator {
 
             if (!qualityMarks.isEmpty()) {
                 ESQSurveyResultGroup group = new ESQSurveyResultGroup(groupMeta, qualityMarks);
-                calculaceLinguisticTermsFrequences(group);
+                calculateLinguisticTermsFrequencies(group);
                 resultGroups.add(group);
             }
         }
@@ -281,21 +281,21 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
-    private void calculaceLinguisticTermsFrequences(ESQSurveyResultGroup group) throws IllegalArgumentException {
+    private void calculateLinguisticTermsFrequencies(ESQSurveyResultGroup group) throws IllegalArgumentException {
         log.debug("ENTER");
         if (group == null) {
             throw new IllegalArgumentException();
         }
 
         for (LinguisticTerm qualityMark : linguisticTermRepository.findAll()) {
-            float frequence = esqSurveyResultGroupMetaDAO.getFrequenceOfMarkForSubCriteria(group.getESQSurveyResultGroupMeta().getClientCategory().getId(),
+            float frequency = esqSurveyResultGroupMetaDAO.getFrequencyOfMarkForSubCriteria(group.getESQSurveyResultGroupMeta().getClientCategory().getId(),
                     group.getESQSurveyResultGroupMeta().getClientGroup().getId(),
                     group.getESQSurveyResultGroupMeta().getService().getId(),
                     group.getESQSurveyResultGroupMeta().getServiceQualityCriteria().getId(),
                     qualityMark.getId());
 
-            if (frequence != 0) {
-                group.getMarksFrequences().put(qualityMark, frequence);
+            if (frequency != 0) {
+                group.getMarksFrequencies().put(qualityMark, frequency);
             }
         }
 
