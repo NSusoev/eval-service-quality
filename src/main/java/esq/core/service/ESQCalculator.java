@@ -91,7 +91,7 @@ public class ESQCalculator {
                 try {
                     QualityMarksVector qualityMarks = esqSurveyResultGroup.getQualityMarks().get(importanceMark);
                     generateImportanceWeightsForQualityMarks(importanceMark, qualityMarks);
-                    long aggregatedMark = (long)calculateAggregatedQualityMark(importanceMark,
+                    long aggregatedMark = calculateAggregatedQualityMark(importanceMark,
                             qualityMarks.getQualityMarks(), qualityMarks.getWeights());
 
                     esqSurveyResultGroup.getAggregatedQualityMarks().put(importanceMark, linguisticTermRepository.findOne(aggregatedMark));
@@ -104,7 +104,7 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
-    private float calculateAggregatedQualityMark(LinguisticTerm importanceMark, List<LinguisticTerm> qualityMarks, List<Float> weights) throws IllegalArgumentException {
+    private long calculateAggregatedQualityMark(LinguisticTerm importanceMark, List<LinguisticTerm> qualityMarks, List<Float> weights) throws IllegalArgumentException {
         log.debug("ENTER");
         if (qualityMarks == null || importanceMark == null) {
             throw new IllegalArgumentException();
@@ -120,7 +120,7 @@ public class ESQCalculator {
         normalizeWeightsForMarks(weights);
 
         if (qualityMarksListSize > 2) {
-            long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize), weights.subList(1, weights.size()));
+            long result = calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize), weights.subList(1, weights.size()));
             return Math.min(5, result + Math.round(weights.get(0) * (qualityMarks.get(0).getId() - result)));
         }
 
