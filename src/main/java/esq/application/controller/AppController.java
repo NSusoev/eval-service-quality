@@ -73,4 +73,17 @@ public class AppController {
         return "esq_aggr";
     }
 
+    @RequestMapping(value = "/esq/intsub")
+    public String getIntegralMarksForSubcriteria(Model model) {
+        log.debug("ENTER");
+        ESQSettingsProfile settings = settingsProfileRepository.findOne(1L);
+        esqCalculator.setSettingsProfile(settings);
+        List<ESQSurveyResultGroup> groups = esqCalculator.getGroupedSurveyResults();
+        esqCalculator.calculateAggregatedQualityMarks(groups);
+        esqCalculator.calculateIntegralQualityMarks(groups);
+        model.addAttribute("groups", groups);
+        log.debug("EXIT");
+        return "esq_integral_subcriteria";
+    }
+
 }
