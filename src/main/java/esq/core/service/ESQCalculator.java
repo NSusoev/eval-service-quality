@@ -211,6 +211,76 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
+    private void normalizeMarks(Map<LinguisticTerm, Float> aggregatedMarksWithWeights) throws IllegalArgumentException {
+        log.debug("ENTER");
+        if (aggregatedMarksWithWeights == null) {
+            throw new IllegalArgumentException();
+        }
+
+        float sumWeight = 0;
+
+        for (Float weight : aggregatedMarksWithWeights.values()) {
+            sumWeight += weight;
+        }
+        log.debug("AGGR MARKS SUM WEIGHT = {}", sumWeight);
+
+        for (LinguisticTerm importance : aggregatedMarksWithWeights.keySet()) {
+            aggregatedMarksWithWeights.put(importance, aggregatedMarksWithWeights.get(importance) / sumWeight);
+        }
+
+        log.debug("AGGREGATED MARKS WITH NORMALIZED WEIGHTS = {}", aggregatedMarksWithWeights);
+        log.debug("EXIT");
+    }
+
+    private long calculateIntegralQualityMark(Map<LinguisticTerm, LinguisticTerm> qualityMarks) {
+        log.debug("ENTER");
+        if (qualityMarks == null) {
+            throw new IllegalArgumentException();
+        }
+
+        Collection<LinguisticTerm> qualityMarksList = qualityMarks.values();
+
+        if (qualityMarksList.size() < 2) {
+            return qualityMarksList.iterator().next().getId();
+        }
+
+        log.debug("QUALITY MARKS = {}", qualityMarks);
+        float result = 0;
+        Map<LinguisticTerm, Float> marksWithWeights = new HashMap<>();
+        for (LinguisticTerm importanceMark : qualityMarks.keySet()) {
+            log.debug("IMPORTANCE = {}", importanceMark);
+            LinguisticTerm qualityMark = qualityMarks.get(importanceMark);
+            float power = getCalcPowerByImportance(qualityMark);
+            marksWithWeights.put(importanceMark, (float)(Math.pow(qualityMark.getId(), power)));
+        }
+
+        normalizeMarks(marksWithWeights);
+        log.debug("MARKS WITH NORMALIZED WEIGHTS = {}", marksWithWeights);
+        for (LinguisticTerm importanceMark : marksWithWeights.keySet()) {
+            result += qualityMarks.get(importanceMark).getId() * marksWithWeights.get(importanceMark);
+        }
+        log.debug("INTEGRAL QUALITY MARK BEFORE ROUNDING = {}", result);
+        if (result < 1) {
+            result = 1;
+        } else {
+            result = Math.round(result);
+        }
+        log.debug("EXIT");
+        return (long)result;
+    }
+
+    public void calculateIntegralQualityMarks(List<ESQSurveyResultGroup> resultGroups) {
+        log.debug("ENTER");
+
+        for (ESQSurveyResultGroup group : resultGroups) {
+            LinguisticTerm integralMark = linguisticTermRepository
+                    .findOne(calculateIntegralQualityMark(group.getAggregatedQualityMarks()));
+            group.setIntegralQualityMark(integralMark);
+        }
+        log.debug("GROUPS WITH INTERGRAL MARKS = {}", resultGroups);
+        log.debug("EXIT");
+    }
+
     private void calculaceLinguisticTermsFrequences(ESQSurveyResultGroup group) throws IllegalArgumentException {
         log.debug("ENTER");
         if (group == null) {
