@@ -117,7 +117,7 @@ public class ESQCalculator {
             return qualityMarks.get(0).getId();
         }
 
-        normalizeMarks(weights);
+        normalizeWeightsForMarks(weights);
 
         if (qualityMarksListSize > 2) {
             long result = (long)calculateAggregatedQualityMark(importanceMark, qualityMarks.subList(1, qualityMarksListSize), weights.subList(1, weights.size()));
@@ -189,7 +189,7 @@ public class ESQCalculator {
         return power;
     }
 
-    private void normalizeMarks(List<Float> weights) throws IllegalArgumentException {
+    private void normalizeWeightsForMarks(List<Float> weights) throws IllegalArgumentException {
         log.debug("ENTER");
         if (weights == null) {
             throw new IllegalArgumentException();
@@ -211,7 +211,7 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
-    private void normalizeMarks(Map<LinguisticTerm, Float> aggregatedMarksWithWeights) throws IllegalArgumentException {
+    private void normalizeWeightsForMarks(Map<LinguisticTerm, Float> aggregatedMarksWithWeights) throws IllegalArgumentException {
         log.debug("ENTER");
         if (aggregatedMarksWithWeights == null) {
             throw new IllegalArgumentException();
@@ -254,7 +254,7 @@ public class ESQCalculator {
             marksWithWeights.put(importanceMark, (float)(Math.pow(qualityMark.getId(), power)));
         }
 
-        normalizeMarks(marksWithWeights);
+        normalizeWeightsForMarks(marksWithWeights);
         log.debug("MARKS WITH NORMALIZED WEIGHTS = {}", marksWithWeights);
         for (LinguisticTerm importanceMark : marksWithWeights.keySet()) {
             result += qualityMarks.get(importanceMark).getId() * marksWithWeights.get(importanceMark);
