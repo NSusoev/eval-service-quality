@@ -5,6 +5,7 @@ import esq.application.repository.*;
 import esq.core.model.ESQSurveyResultGroup;
 import esq.core.model.ESQSurveyResultGroupMeta;
 import esq.core.model.QualityMarksVector;
+import esq.core.model.SurveyResultGroupsContainer;
 import esq.core.repository.ESQSurveyResultGroupMetaDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -301,6 +302,24 @@ public class ESQCalculator {
 
         log.debug("GROUP WITH FREQUENCES = {}", group);
         log.debug("EXIT");
+    }
+
+    public SurveyResultGroupsContainer createContainer(List<ESQSurveyResultGroup> resultGroups) {
+        SurveyResultGroupsContainer container = new SurveyResultGroupsContainer();
+        Map<ServiceQualityCriteria, ESQSurveyResultGroup> criterias = new HashMap<>();
+        Map<esq.application.model.Service, Map<ServiceQualityCriteria, ESQSurveyResultGroup>> services = new HashMap<>();
+        Map<ClientGroup, Map<esq.application.model.Service, Map<ServiceQualityCriteria, ESQSurveyResultGroup>>> groups = new HashMap<>();
+
+        for (ESQSurveyResultGroup group : resultGroups) {
+            // TODO: сделать проверку на null, чтобы добавлялось, а не перезаписывалось (может и не надо ?)
+            // Подумать, как считать интегральную оценку для сервиса
+            criterias.put(group.getESQSurveyResultGroupMeta().getServiceQualityCriteria(), group);
+            services.put(group.getESQSurveyResultGroupMeta().getService(), criterias);
+            groups.put(group.getESQSurveyResultGroupMeta().getClientGroup(), services);
+            container.getSurveyResults().put(group.getESQSurveyResultGroupMeta().getClientCategory(), groups);
+        }
+
+        return container;
     }
 
 }
