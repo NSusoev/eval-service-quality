@@ -15,7 +15,6 @@
                         <span th:text="${group.getESQSurveyResultGroupMeta().getClientCategory().getName()}" class="label label-primary"></span>
                         <span th:text="${group.getESQSurveyResultGroupMeta().getClientGroup().getName()}" class="label label-primary"></span>
                         <span th:text="${group.getESQSurveyResultGroupMeta().getService().getName()}" class="label label-success"></span>
-                        <span th:text="${group.getESQSurveyResultGroupMeta().getServiceQualityCriteria().getName()}" class="label label-success"></span>
                     </p>
 
                     <p th:each="importantMark : ${group.getAggregatedQualityMarks().keySet()}">

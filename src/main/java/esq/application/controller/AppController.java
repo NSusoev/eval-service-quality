@@ -83,7 +83,7 @@ public class AppController {
         esqCalculator.calculateIntegralQualityMarks(groups);
         model.addAttribute("groups", groups);
         log.debug("EXIT");
-        return "esq_integral_subcriteria";
+        return "esq_integral_service";
     }
 
 }
