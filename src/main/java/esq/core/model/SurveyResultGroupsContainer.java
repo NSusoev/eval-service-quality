@@ -6,20 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SurveyResultGroupsContainer {
-    Map<ClientCategory, Map<ClientGroup, Map<Service,
-            Map<ServiceQualityCriteria, ESQSurveyResultGroup>>>> surveyResults = new HashMap<>();
+    Map<ClientCategory, Map<ClientGroup, Map<Service, ESQSurveyResultGroup>>> surveyResults = new HashMap<>();
 
     LinguisticTerm integralMarkAll;
     Map<ClientCategory, LinguisticTerm> integralMarksForCategories = new HashMap<>();
     Map<ClientCategory, Map<ClientGroup, LinguisticTerm>> integralMarksForGroups = new HashMap<>();
 
-    public Map<ClientCategory, Map<ClientGroup, Map<Service, Map<ServiceQualityCriteria,
-            ESQSurveyResultGroup>>>> getSurveyResults() {
+    public Map<ClientCategory, Map<ClientGroup, Map<Service, ESQSurveyResultGroup>>> getSurveyResults() {
         return surveyResults;
     }
 
-    public void setSurveyResults(Map<ClientCategory, Map<ClientGroup, Map<Service, Map<ServiceQualityCriteria,
-            ESQSurveyResultGroup>>>> surveyResults) {
+    public void setSurveyResults(Map<ClientCategory, Map<ClientGroup, Map<Service, ESQSurveyResultGroup>>> surveyResults) {
         this.surveyResults = surveyResults;
     }
 

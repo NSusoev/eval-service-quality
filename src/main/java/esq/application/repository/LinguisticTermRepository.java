@@ -18,11 +18,9 @@ public interface LinguisticTermRepository extends CrudRepository<LinguisticTerm,
                 "and s.client_category_id = ?1 " +
                 "and s.client_group_id = ?2 " +
                 "and s.service_id = ?3 " +
-                "and r.service_quality_criteria_id = ?4 " +
-                "and r.importance_mark_id = ?5", nativeQuery = true)
+                "and r.importance_mark_id = ?4", nativeQuery = true)
     List<LinguisticTerm> findQualityMarksForGroup(Long clientCategoryId,
                                                   Long clientGroupId,
                                                   Long serviceId,
-                                                  Long serviceQualityCriteriaId,
                                                   Long importanceMarkId);
 }

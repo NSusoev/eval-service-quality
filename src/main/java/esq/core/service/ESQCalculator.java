@@ -61,7 +61,6 @@ public class ESQCalculator {
                         groupMeta.getClientCategory().getId(),
                         groupMeta.getClientGroup().getId(),
                         groupMeta.getService().getId(),
-                        groupMeta.getServiceQualityCriteria().getId(),
                         importance.getId());
 
                 if (!qualityMarksForImportanceGroup.isEmpty()) {
@@ -71,7 +70,6 @@ public class ESQCalculator {
 
             if (!qualityMarks.isEmpty()) {
                 ESQSurveyResultGroup group = new ESQSurveyResultGroup(groupMeta, qualityMarks);
-                calculateLinguisticTermsFrequencies(group);
                 resultGroups.add(group);
             }
         }
@@ -292,7 +290,6 @@ public class ESQCalculator {
             float frequency = esqSurveyResultGroupMetaDAO.getFrequencyOfMarkForSubCriteria(group.getESQSurveyResultGroupMeta().getClientCategory().getId(),
                     group.getESQSurveyResultGroupMeta().getClientGroup().getId(),
                     group.getESQSurveyResultGroupMeta().getService().getId(),
-                    group.getESQSurveyResultGroupMeta().getServiceQualityCriteria().getId(),
                     qualityMark.getId());
 
             if (frequency != 0) {
@@ -306,15 +303,13 @@ public class ESQCalculator {
 
     public SurveyResultGroupsContainer createContainer(List<ESQSurveyResultGroup> resultGroups) {
         SurveyResultGroupsContainer container = new SurveyResultGroupsContainer();
-        Map<ServiceQualityCriteria, ESQSurveyResultGroup> criterias = new HashMap<>();
-        Map<esq.application.model.Service, Map<ServiceQualityCriteria, ESQSurveyResultGroup>> services = new HashMap<>();
-        Map<ClientGroup, Map<esq.application.model.Service, Map<ServiceQualityCriteria, ESQSurveyResultGroup>>> groups = new HashMap<>();
+        Map<esq.application.model.Service, ESQSurveyResultGroup> services = new HashMap<>();
+        Map<ClientGroup, Map<esq.application.model.Service, ESQSurveyResultGroup>> groups = new HashMap<>();
 
         for (ESQSurveyResultGroup group : resultGroups) {
             // TODO: сделать проверку на null, чтобы добавлялось, а не перезаписывалось (может и не надо ?)
             // Подумать, как считать интегральную оценку для сервиса
-            criterias.put(group.getESQSurveyResultGroupMeta().getServiceQualityCriteria(), group);
-            services.put(group.getESQSurveyResultGroupMeta().getService(), criterias);
+            services.put(group.getESQSurveyResultGroupMeta().getService(), group);
             groups.put(group.getESQSurveyResultGroupMeta().getClientGroup(), services);
             container.getSurveyResults().put(group.getESQSurveyResultGroupMeta().getClientCategory(), groups);
         }

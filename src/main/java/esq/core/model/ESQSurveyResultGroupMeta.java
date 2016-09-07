@@ -14,16 +14,13 @@ public class ESQSurveyResultGroupMeta {
     private ClientCategory clientCategory;
     private ClientGroup clientGroup;
     private Service service;
-    private ServiceQualityCriteria serviceQualityCriteria;
 
     public ESQSurveyResultGroupMeta(ClientCategory clientCategory,
                                     ClientGroup clientGroup,
-                                    Service service,
-                                    ServiceQualityCriteria serviceQualityCriteria) {
+                                    Service service) {
         this.clientCategory = clientCategory;
         this.clientGroup = clientGroup;
         this.service = service;
-        this.serviceQualityCriteria = serviceQualityCriteria;
     }
 
     public ClientCategory getClientCategory() {
@@ -50,21 +47,12 @@ public class ESQSurveyResultGroupMeta {
         this.service = service;
     }
 
-    public ServiceQualityCriteria getServiceQualityCriteria() {
-        return serviceQualityCriteria;
-    }
-
-    public void setServiceQualityCriteria(ServiceQualityCriteria serviceQualityCriteria) {
-        this.serviceQualityCriteria = serviceQualityCriteria;
-    }
-
     @Override
     public String toString() {
         return String.format("ESQSurveyResultGroupMeta[ClientCategory = %s, ClientGroup = %s," +
-                " Service = %s, ServiceQualityCriteria = %s]\n\n",
+                " Service = %s]\n\n",
                 clientCategory,
                 clientGroup,
-                service,
-                serviceQualityCriteria);
+                service);
     }
 }
