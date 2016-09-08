@@ -281,6 +281,42 @@ public class ESQCalculator {
         log.debug("EXIT");
     }
 
+    private long calculateIntegralQualityMark(LinguisticTerm importance, List<ESQSurveyResultGroup> groupsWithIntegralQualityMarks) {
+        log.debug("ENTER");
+        if (groupsWithIntegralQualityMarks == null || importance == null) {
+            throw new IllegalArgumentException();
+        }
+
+
+        if (groupsWithIntegralQualityMarks.size() < 2) {
+            return groupsWithIntegralQualityMarks.iterator().next().getIntegralQualityMark().getId();
+        }
+
+        log.debug("RESULT GROUPS WITH QUALITY MARKS = {}", groupsWithIntegralQualityMarks);
+        float result = 0;
+        List<Float> weights = new ArrayList<>();
+        for (ESQSurveyResultGroup resultGroup : groupsWithIntegralQualityMarks) {
+            float power = getCalcPowerByImportance(importance);
+            weights.add((float)(Math.pow(resultGroup.getIntegralQualityMark().getId(), power)));
+        }
+
+        normalizeWeightsForMarks(weights);
+        log.debug("NORMALIZED WEIGHTS = {}", weights);
+        for (int i = 0; i < groupsWithIntegralQualityMarks.size(); i++) {
+            result += groupsWithIntegralQualityMarks.get(i).getIntegralQualityMark().getId() * weights.get(i);
+        }
+
+        log.debug("INTEGRAL QUALITY MARK BEFORE ROUNDING = {}", result);
+        if (result < 1) {
+            result = 1;
+        } else {
+            // TODO: ROUNDING POLICY
+            result = Math.round(result);
+        }
+        log.debug("EXIT");
+        return (long)result;
+    }
+
     private void calculateLinguisticTermsFrequencies(ESQSurveyResultGroup group) throws IllegalArgumentException {
         log.debug("ENTER");
         if (group == null) {
@@ -321,10 +357,6 @@ public class ESQCalculator {
         log.debug("CONTAINER WAS CREATED = {}", container);
         log.debug("EXIT");
         return container;
-    }
-
-    public void calculateIntegralMarksForGroupsAndCateroies(SurveyResultGroupsContainer container) {
-
     }
 
 }
