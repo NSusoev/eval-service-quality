@@ -262,6 +262,7 @@ public class ESQCalculator {
         if (result < 1) {
             result = 1;
         } else {
+            // TODO: ROUNDING POLICY
             result = Math.round(result);
         }
         log.debug("EXIT");
@@ -302,19 +303,29 @@ public class ESQCalculator {
     }
 
     public SurveyResultGroupsContainer createContainer(List<ESQSurveyResultGroup> resultGroups) {
+        log.debug("ENTER");
         SurveyResultGroupsContainer container = new SurveyResultGroupsContainer();
-        Map<esq.application.model.Service, ESQSurveyResultGroup> services = new HashMap<>();
-        Map<ClientGroup, Map<esq.application.model.Service, ESQSurveyResultGroup>> groups = new HashMap<>();
+        Map<esq.application.model.Service, List<ESQSurveyResultGroup>> services = new HashMap<>();
+        Map<ClientGroup, Map<esq.application.model.Service, List<ESQSurveyResultGroup>>> groups = new HashMap<>();
 
         for (ESQSurveyResultGroup group : resultGroups) {
             // TODO: сделать проверку на null, чтобы добавлялось, а не перезаписывалось (может и не надо ?)
-            // Подумать, как считать интегральную оценку для сервиса
-            services.put(group.getESQSurveyResultGroupMeta().getService(), group);
+            if (services.get(group.getESQSurveyResultGroupMeta().getService()) != null) {
+                services.get(group.getESQSurveyResultGroupMeta().getService()).add(group);
+            } else {
+                services.put(group.getESQSurveyResultGroupMeta().getService(), new ArrayList<>(Arrays.asList(group)));
+            }
             groups.put(group.getESQSurveyResultGroupMeta().getClientGroup(), services);
             container.getSurveyResults().put(group.getESQSurveyResultGroupMeta().getClientCategory(), groups);
         }
 
+        log.debug("CONTAINER WAS CREATED = {}", container);
+        log.debug("EXIT");
         return container;
+    }
+
+    public void calculateIntegralMarksForGroupsAndCateroies(SurveyResultGroupsContainer container) {
+
     }
 
 }
