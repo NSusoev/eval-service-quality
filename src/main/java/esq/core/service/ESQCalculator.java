@@ -309,7 +309,6 @@ public class ESQCalculator {
         Map<ClientGroup, Map<esq.application.model.Service, List<ESQSurveyResultGroup>>> groups = new HashMap<>();
 
         for (ESQSurveyResultGroup group : resultGroups) {
-            // TODO: сделать проверку на null, чтобы добавлялось, а не перезаписывалось (может и не надо ?)
             if (services.get(group.getESQSurveyResultGroupMeta().getService()) != null) {
                 services.get(group.getESQSurveyResultGroupMeta().getService()).add(group);
             } else {
